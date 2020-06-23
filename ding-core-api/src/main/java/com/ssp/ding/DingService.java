@@ -67,7 +67,7 @@ public interface DingService {
      * 接口文档:https://ding-doc.dingtalk.com/doc#/serverapi2/kymkv6/M3fY1
      *
      * @param tmpAuthCode 用户授权的临时授权码code，只能使用一次；在前面步骤中跳转到redirect_uri时会追加code参数
-     * @see com.ssp.ding.DingUserService#getUserIdByUnionId(java.lang.String) 根据unionid获取userid
+     * @see DingUserService#getUserIdByUnionId(java.lang.String) 根据unionid获取userid
      */
     DingSnsUserInfoResponse getUserInfoByCode(String tmpAuthCode);
 

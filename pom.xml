@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.1.RELEASE</version>
+        <version>1.4.0.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.ssp.ding</groupId>
@@ -17,51 +17,54 @@
 
     <modules>
         <module>ding-core</module>
-<!--        <module>ding-contacts</module>-->
+        <module>ding-contacts</module>
         <module>ding-contacts-api</module>
         <module>ding-core-api</module>
         <module>ding-sso-api</module>
         <module>ding-message-api</module>
         <module>ding-process-api</module>
         <module>ding-smart-work-api</module>
+        <module>ding-attendance-api</module>
+        <module>ding-callback-api</module>
+        <module>ding-callback</module>
+        <module>ding-spring-boot-starters</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>
         <hutool.version>5.3.7</hutool.version>
+        <guava.version>20.0</guava.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-core</artifactId>
             <version>${hutool.version}</version>
         </dependency>
-
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 
@@ -70,6 +73,16 @@
             <dependency>
                 <groupId>com.ssp.ding</groupId>
                 <artifactId>ding-core-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ssp.ding</groupId>
+                <artifactId>ding-callback-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ssp.ding</groupId>
+                <artifactId>ding-callback</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

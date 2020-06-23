@@ -1,4 +1,4 @@
-package com.ssp.ding.responsei;
+package com.ssp.ding.response;
 
 /**
  * 发送结果

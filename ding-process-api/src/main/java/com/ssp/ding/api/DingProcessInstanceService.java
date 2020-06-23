@@ -71,7 +71,7 @@ public interface DingProcessInstanceService {
      * @see #listIds(DingPageable, DingProcessInstanceListIdsRequest)
      */
     default DingCursorPage<String> listIds(DingProcessInstanceListIdsRequest listIdsRequest) throws DingException {
-        return listIds(DingPageable.DEFAULT, listIdsRequest);
+        return listIds(DingPageable.DEFAULT_20, listIdsRequest);
     }
 
     /**

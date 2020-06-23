@@ -37,5 +37,5 @@ public class OperationRecord {
     private String remark;
 
     @JsonProperty("userid")
-    private String userid;
+    private String userId;
 }

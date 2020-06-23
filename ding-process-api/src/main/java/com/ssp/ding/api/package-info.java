@@ -5,7 +5,8 @@
  * @author: sunshaoping
  * @date: Create by in 11:07 上午 2020/6/17
  */
-@NonNullApi
+@Nonnull
 package com.ssp.ding.api;
 
-import org.springframework.lang.NonNullApi;
+
+import javax.annotation.Nonnull;

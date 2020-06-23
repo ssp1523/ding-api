@@ -36,29 +36,19 @@ public class DingUserResponseConverter implements Converter<OapiUserGetResponse,
 
         return DingUserResponse.builder()
                 .active(response.getActive())
-                .associatedUnionId(response.getAssociatedUnionId())
                 .department(response.getDepartment())
                 .avatar(response.getAvatar())
-                .dingId(response.getDingId())
                 .email(response.getEmail())
                 .extAttr(createExtAttr(response.getExtattr()))
                 .hiredDate(DateUtils.toLocalDate(response.getHiredDate()))
-                .inviteMobile(response.getInviteMobile())
                 .isAdmin(response.getIsAdmin())
                 .isBoss(response.getIsBoss())
-                .isCustomizedPortal(response.getIsCustomizedPortal())
                 .isHide(response.getIsHide())
                 .isLeaderInDepts(createIsLeaderInDepts(response.getIsLeaderInDepts()))
-                .isLimited(response.getIsLimited())
                 .isSenior(response.getIsSenior())
                 .jobNumber(response.getJobnumber())
-                .managerUserId(response.getManagerUserId())
-                .memberView(response.getMemberView())
                 .mobile(response.getMobile())
-                .mobileHash(response.getMobileHash())
                 .name(response.getName())
-                .nickname(response.getNickname())
-                .openId(response.getOpenId())
                 .orderInDepts(createOrderInDepts(response.getOrderInDepts()))
                 .orgEmail(response.getOrgEmail())
                 .position(response.getPosition())
@@ -93,8 +83,8 @@ public class DingUserResponseConverter implements Converter<OapiUserGetResponse,
 
     }
 
-    private Map<String, String> createExtAttr(String extattr) {
-        return parseJson(extattr, "extattr", TypeReferenceConf.MAP_STRING_STRING);
+    private Map<String, String> createExtAttr(String extAttr) {
+        return parseJson(extAttr, "extattr", TypeReferenceConf.MAP_STRING_STRING);
     }
 
     private List<DingRole> createDingRoles(List<OapiUserGetResponse.Roles> roles) {
@@ -107,7 +97,6 @@ public class DingUserResponseConverter implements Converter<OapiUserGetResponse,
                                 .id(role.getId())
                                 .groupName(role.getGroupName())
                                 .name(role.getName())
-                                .type(role.getType())
                                 .build())
                 .collect(Collectors.toList());
 

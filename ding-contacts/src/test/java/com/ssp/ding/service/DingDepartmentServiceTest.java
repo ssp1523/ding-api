@@ -1,9 +1,10 @@
 package com.ssp.ding.service;
 
+import cn.hutool.core.lang.Singleton;
 import com.ssp.ding.BaseTest;
+import com.ssp.ding.api.DingDepartmentService;
 import com.ssp.ding.request.DingDepartmentCreateRequest;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -13,8 +14,13 @@ import java.util.List;
  */
 public class DingDepartmentServiceTest extends BaseTest {
 
-    @Autowired
     DingDepartmentService dingDepartmentService;
+
+    @Override
+    public void init() {
+        super.init();
+        dingDepartmentService = Singleton.get(DingDepartmentService.class);
+    }
 
     @Test
     public void create() {
@@ -27,6 +33,7 @@ public class DingDepartmentServiceTest extends BaseTest {
 
     @Test
     public void update() {
+        dingDepartmentService.update(null, null);
     }
 
     @Test

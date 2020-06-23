@@ -1,9 +1,6 @@
 package com.ssp.ding.properties;
 
 import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import static com.ssp.ding.properties.DingProperties.PREFIX;
 
 /**
  * 钉钉配置 <br/>
@@ -13,10 +10,7 @@ import static com.ssp.ding.properties.DingProperties.PREFIX;
  * @date: Create by in 1:48 下午 2020/6/7
  */
 @Data
-@ConfigurationProperties(PREFIX)
-public class DingProperties {
-
-    public static final String PREFIX = "ding";
+public class DingConfig {
 
 
     /**
@@ -29,6 +23,20 @@ public class DingProperties {
      */
     private String appSecret;
 
+    /**
+     * 数据加密密钥。用于回调数据的加密，长度固定为43个字符，从a-z, A-Z, 0-9共62个字符中选取,您可以随机生成
+     */
+    private String aesKey;
+
+    /**
+     * 加解密需要用到的token
+     */
+    private String token;
+
+    /**
+     * 企业id
+     */
+    private String corpId;
 
     /**
      * api 基本域名

@@ -21,7 +21,6 @@ public class DingDepartmentResponseConverter implements Converter<OapiDepartment
                 .id(source.getId())
                 .name(source.getName())
                 .parentId(source.getParentid())
-                .sourceIdentifier(source.getSourceIdentifier())
                 .build();
     }
 }

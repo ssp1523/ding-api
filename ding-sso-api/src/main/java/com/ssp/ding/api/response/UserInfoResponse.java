@@ -26,7 +26,7 @@ public class UserInfoResponse {
     /**
      * 员工在企业内的唯一id
      */
-    private String userid;
+    private String userId;
 
 
 }

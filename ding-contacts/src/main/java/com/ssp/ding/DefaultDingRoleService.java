@@ -3,17 +3,18 @@ package com.ssp.ding;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import com.dingtalk.api.request.*;
-import com.dingtalk.api.response.OapiRoleAddRoleResponse;
-import com.dingtalk.api.response.OapiRoleAddrolegroupResponse;
+import com.dingtalk.api.response.*;
+import com.ssp.ding.api.DingRoleService;
 import com.ssp.ding.conf.DingRoleConf;
-import com.ssp.ding.request.DingRoleResponse;
+import com.ssp.ding.request.DingPageable;
 import com.ssp.ding.response.DingPage;
 import com.ssp.ding.response.DingRoleGroupResponse;
+import com.ssp.ding.response.DingRoleResponse;
 import com.ssp.ding.response.RoleUserSimpleResponse;
 import com.ssp.ding.service.BaseDingService;
-import org.springframework.data.domain.Page;
+import com.ssp.ding.service.DingClient;
+import org.springframework.core.convert.ConversionService;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,10 @@ import static com.ssp.ding.conf.DingConf.VERTICAL_BAR;
  * @date: Create by in 4:47 下午 2020/6/9
  */
 public class DefaultDingRoleService extends BaseDingService implements DingRoleService, DingRoleConf {
+
+    public DefaultDingRoleService(DingClient dingClient, ConversionService conversionService) {
+        super(dingClient, conversionService);
+    }
 
     @Override
     public Long addRole(Long groupId, String roleName) {
@@ -62,25 +67,47 @@ public class DefaultDingRoleService extends BaseDingService implements DingRoleS
 
     @Override
     public DingPage<DingRoleGroupResponse> list(DingPageable pageable) {
-        //todo
-        return null;
+        OapiRoleListRequest request = new OapiRoleListRequest();
+        request.setOffset((long) pageable.getOffset());
+        request.setSize((long) pageable.getSize());
+
+        OapiRoleListResponse response = execute(ROLE_LIST, request);
+        OapiRoleListResponse.PageVo result = response.getResult();
+        List<OapiRoleListResponse.OpenRoleGroup> list = result.getList();
+        if (CollUtil.isEmpty(list)) {
+            return DingPage.empty();
+        }
+
+        return new DingPage<>(result.getHasMore(),
+                list.stream()
+                        .map(openRoleGroup -> convert(openRoleGroup, DingRoleGroupResponse.class))
+                        .collect(Collectors.toList())
+        );
     }
+
 
     @Override
     public DingPage<RoleUserSimpleResponse> simpleList(DingPageable pageable, Long roleId) {
-        return null;
+
+        OapiRoleSimplelistRequest request = new OapiRoleSimplelistRequest();
+        request.setRoleId(roleId);
+        request.setOffset((long) pageable.getOffset());
+        request.setSize((long) pageable.getSize());
+
+        OapiRoleSimplelistResponse response = execute(ROLE_SIMPLE_LIST, request);
+        OapiRoleSimplelistResponse.PageVo result = response.getResult();
+        List<OapiRoleSimplelistResponse.OpenEmpSimple> list = result.getList();
+        if (CollUtil.isEmpty(list)) {
+            return DingPage.empty();
+        }
+
+        return new DingPage<>(result.getHasMore(),
+                list.stream()
+                        .map(openEmpSimple -> convert(openEmpSimple, RoleUserSimpleResponse.class))
+                        .collect(Collectors.toList())
+        );
     }
 
-    @Override
-    public Page<DingRoleGroupResponse> list(Pageable pageable) {
-        //todo
-        return null;
-    }
-
-    @Override
-    public Page<RoleUserSimpleResponse> simpleList(Pageable pageable, Long roleId) {
-        return null;
-    }
 
     @Override
     public Long addRoleGroup(String groupName) {
@@ -94,7 +121,12 @@ public class DefaultDingRoleService extends BaseDingService implements DingRoleS
     @Override
     public DingRoleGroupResponse getRoleGroup(Long groupId) {
 
-        return null;
+        OapiRoleGetrolegroupRequest request = new OapiRoleGetrolegroupRequest();
+        request.setGroupId(groupId);
+
+        OapiRoleGetrolegroupResponse response = execute(ROLE_GET_ROLE_GROUP, request);
+
+        return convert(response, DingRoleGroupResponse.class);
     }
 
     @Override

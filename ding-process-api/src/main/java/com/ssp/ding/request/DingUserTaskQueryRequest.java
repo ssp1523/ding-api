@@ -18,6 +18,6 @@ public class DingUserTaskQueryRequest {
     /**
      * 用户id
      */
-    private final String userid;
+    private final String userId;
 
 }

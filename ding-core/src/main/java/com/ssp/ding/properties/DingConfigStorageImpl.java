@@ -17,29 +17,27 @@ import java.util.function.Supplier;
  */
 public class DingConfigStorageImpl implements DingConfigStorage {
 
-    private final DingProperties dingProperties;
+    private final DingConfig dingConfig;
 
     private final Token token = new Token();
 
     private final Token ticket = new Token();
 
 
-
-    public DingConfigStorageImpl(DingProperties dingProperties) {
-        this.dingProperties = dingProperties;
+    public DingConfigStorageImpl(DingConfig dingConfig) {
+        this.dingConfig = dingConfig;
     }
 
 
     @Override
     public String getAppKey() {
-        return dingProperties.getAppKey();
+        return dingConfig.getAppKey();
     }
 
     @Override
     public String getAppSecret() {
-        return dingProperties.getAppSecret();
+        return dingConfig.getAppSecret();
     }
-
 
 
     @Override

@@ -4,7 +4,7 @@ import com.ssp.ding.request.DingPageable;
 import com.ssp.ding.request.DingSaveProcessRequest;
 import com.ssp.ding.response.DingCursorPage;
 import com.ssp.ding.response.DingProcessTopResponse;
-import org.springframework.lang.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * 企业自有工作流模板
@@ -104,7 +104,7 @@ public interface DingProcessService {
      * @see #listByUserId(DingPageable, String)
      */
     default DingCursorPage<DingProcessTopResponse> listByUserId(String userId) {
-        return listByUserId(DingPageable.DEFAULT, userId);
+        return listByUserId(DingPageable.DEFAULT_20, userId);
     }
 
     /**

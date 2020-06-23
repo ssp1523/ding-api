@@ -2,7 +2,7 @@ package com.ssp.ding.service.impl;
 
 import com.dingtalk.api.DefaultDingTalkClient;
 import com.dingtalk.api.DingTalkClient;
-import com.ssp.ding.properties.DingProperties;
+import com.ssp.ding.properties.DingConfig;
 import com.ssp.ding.service.DingTalkClientFactory;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -17,15 +17,15 @@ public class DefaultDingTalkClientFactory implements DingTalkClientFactory {
 
     private final ConcurrentMap<String, DingTalkClient> dingTalkClientCache = new ConcurrentHashMap<>();
 
-    private final DingProperties dingProperties;
+    private final DingConfig dingConfig;
 
-    public DefaultDingTalkClientFactory(DingProperties dingProperties) {
-        this.dingProperties = dingProperties;
+    public DefaultDingTalkClientFactory(DingConfig dingConfig) {
+        this.dingConfig = dingConfig;
     }
 
     @Override
     public DingTalkClient getClient(String path) {
-        String url = UriComponentsBuilder.fromHttpUrl(dingProperties.getBaseApi())
+        String url = UriComponentsBuilder.fromHttpUrl(dingConfig.getBaseApi())
                 .path(path)
                 .toUriString();
         return dingTalkClientCache.computeIfAbsent(url, this::getClient0);

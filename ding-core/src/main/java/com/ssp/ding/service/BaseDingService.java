@@ -1,13 +1,10 @@
 package com.ssp.ding.service;
 
 import cn.hutool.core.lang.Assert;
-import com.ssp.ding.configuration.ConverterConfiguration;
 import com.ssp.ding.exception.DingException;
 import com.taobao.api.TaobaoRequest;
 import com.taobao.api.TaobaoResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.ConversionService;
 
 /**
@@ -19,9 +16,15 @@ import org.springframework.core.convert.ConversionService;
 @Slf4j
 public abstract class BaseDingService {
 
-    protected DingClient dingClient;
+    protected final DingClient dingClient;
 
-    protected ConversionService conversionService;
+    protected final ConversionService conversionService;
+
+    protected BaseDingService(DingClient dingClient, ConversionService conversionService) {
+        this.dingClient = dingClient;
+        this.conversionService = conversionService;
+    }
+
 
     public <T> T convert(Object source, Class<T> targetType) {
         Assert.notNull(source, "source 必输");
@@ -39,14 +42,4 @@ public abstract class BaseDingService {
         return convert(response, responseType);
     }
 
-    @Autowired
-    public void setDingClient(DingClient dingClient) {
-        this.dingClient = dingClient;
-    }
-
-    @Autowired
-    @Qualifier(ConverterConfiguration.DING_CONVERT_SERVICE_BEAN)
-    public void setConversionService(ConversionService conversionService) {
-        this.conversionService = conversionService;
-    }
 }

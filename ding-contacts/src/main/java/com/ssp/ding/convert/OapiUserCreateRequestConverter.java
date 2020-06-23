@@ -32,12 +32,12 @@ public class OapiUserCreateRequestConverter implements Converter<DingUserRequest
     @Override
     public OapiUserCreateRequest convert(DingUserRequest dingUserRequest) {
         Assert.notBlank(dingUserRequest.getName(), "name必输");
-        Assert.notEmpty(dingUserRequest.getDepartments(), "departments必输");
+        Assert.notEmpty(dingUserRequest.getDepartment(), "departments必输");
         Assert.notEmpty(dingUserRequest.getMobile(), "mobile必输");
         OapiUserCreateRequest request = new OapiUserCreateRequest();
 
         try {
-            request.setDepartment(objectMapper.writeValueAsString(dingUserRequest.getDepartments()));
+            request.setDepartment(objectMapper.writeValueAsString(dingUserRequest.getDepartment()));
             if (MapUtil.isNotEmpty(dingUserRequest.getExtAttr())) {
                 request.setExtattr(objectMapper.writeValueAsString(dingUserRequest.getExtAttr()));
             }

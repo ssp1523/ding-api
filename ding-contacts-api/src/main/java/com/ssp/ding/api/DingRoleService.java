@@ -1,4 +1,4 @@
-package com.ssp.ding;
+package com.ssp.ding.api;
 
 import com.ssp.ding.request.DingPageable;
 import com.ssp.ding.response.DingPage;
@@ -18,15 +18,22 @@ import java.util.List;
 public interface DingRoleService {
     /**
      * 创建角色
+     * <p>
+     * 请求地址：https://oapi.dingtalk.com/role/add_role?access_token=ACCESS_TOKEN
+     * <p>
      * 接口文档:https://ding-doc.dingtalk.com/doc#/serverapi2/dnu5l1/00d61084
      *
      * @param groupId  角色组id
      * @param roleName 角色名称
+     * @return 角色id
      */
     Long addRole(Long groupId, String roleName);
 
     /**
      * 更新角色
+     * <p>
+     * 请求地址：https://oapi.dingtalk.com/role/update_role?access_token=ACCESS_TOKEN
+     * <p>
      * 接口文档:https://ding-doc.dingtalk.com/doc#/serverapi2/dnu5l1/9eb0eba6
      *
      * @param roleId   角色id。“默认”分组内的角色不支持修改，包括：负责人、主管、主管理员、子管理员
@@ -35,8 +42,13 @@ public interface DingRoleService {
     void updateRole(Long roleId, String roleName);
 
     /**
-     * 删除角色, 【注意】删除角色前，需确保角色下面的员工没有被赋予这个角色
-     * 接口文档:
+     * 删除角色
+     * <p>
+     * 【注意】删除角色前，需确保角色下面的员工没有被赋予这个角色
+     * <p>
+     * 请求地址：https://oapi.dingtalk.com/topapi/role/deleterole?access_token=ACCESS_TOKEN
+     * <p>
+     * 接口文档:https://ding-doc.dingtalk.com/doc#/serverapi2/dnu5l1/ca40c5a5
      *
      * @param roleId 角色id。“默认”分组内的角色不支持修改，包括：负责人、主管、主管理员、子管理员
      */
@@ -45,7 +57,10 @@ public interface DingRoleService {
 
     /**
      * 获取角色详情
+     * <p>
      * 接口文档:https://ding-doc.dingtalk.com/doc#/serverapi2/dnu5l1/fc77043e
+     * <p>
+     * 请求地址：https://oapi.dingtalk.com/topapi/role/getrole?access_token=ACCESS_TOKEN
      *
      * @param roleId 角色Id
      */
@@ -53,7 +68,10 @@ public interface DingRoleService {
 
     /**
      * 获取角色列表
+     * <p>
      * 接口文档 https://ding-doc.dingtalk.com/doc#/serverapi2/dnu5l1/a6313fe1
+     * <p>
+     * 请求地址：https://oapi.dingtalk.com/topapi/role/list?access_token=ACCESS_TOKEN
      *
      * @param pageable 分页
      */
@@ -63,12 +81,15 @@ public interface DingRoleService {
      * @see #list(DingPageable)
      */
     default DingPage<DingRoleGroupResponse> list() {
-        return list(DingPageable.DEFAULT);
+        return list(DingPageable.DEFAULT_20);
     }
 
     /**
      * 获取角色下的员工列表
+     * <p>
      * 接口文档:https://ding-doc.dingtalk.com/doc#/serverapi2/dnu5l1/189c3a45
+     * <p>
+     * 请求地址：https://oapi.dingtalk.com/topapi/role/simplelist?access_token=ACCESS_TOKEN
      *
      * @param pageable 分页
      * @param roleId   角色Id
@@ -79,12 +100,15 @@ public interface DingRoleService {
      * @see #simpleList(DingPageable, Long)
      */
     default DingPage<RoleUserSimpleResponse> simpleList(Long roleId) {
-        return simpleList(DingPageable.DEFAULT, roleId);
+        return simpleList(DingPageable.DEFAULT_20, roleId);
     }
 
 
     /**
      * 创建角色组
+     * <p>
+     * 请求地址：https://oapi.dingtalk.com/role/add_role_group?access_token=ACCESS_TOKEN
+     * <p>
      * 接口文档:https://ding-doc.dingtalk.com/doc#/serverapi2/dnu5l1/744cb825
      *
      * @param groupName 角色组名称
@@ -95,7 +119,10 @@ public interface DingRoleService {
 
     /**
      * 获取角色组
+     * <p>
      * 接口文档:https://ding-doc.dingtalk.com/doc#/serverapi2/dnu5l1/f6200f9a
+     * <p>
+     * 请求地址：https://oapi.dingtalk.com/topapi/role/getrolegroup?access_token=ACCESS_TOKEN
      *
      * @param groupId 角色组的Id
      */
@@ -104,6 +131,9 @@ public interface DingRoleService {
 
     /**
      * 批量增加员工角色
+     * <p>
+     * 请求地址：https://oapi.dingtalk.com/topapi/role/addrolesforemps?access_token=ACCESS_TOKEN
+     * <p>
      * 接口文档:https://ding-doc.dingtalk.com/doc#/serverapi2/dnu5l1/9bdcbf35
      *
      * @param roleIds 角色id list，最大列表长度：20
@@ -113,6 +143,9 @@ public interface DingRoleService {
 
     /**
      * 批量删除员工角色
+     * <p>
+     * 请求地址：https://oapi.dingtalk.com/topapi/role/removerolesforemps?access_token=ACCESS_TOKEN
+     * <p>
      * 接口文档:https://ding-doc.dingtalk.com/doc#/serverapi2/dnu5l1/d085371e
      *
      * @param roleIds 角色id list，最大列表长度：20
@@ -123,6 +156,9 @@ public interface DingRoleService {
 
     /**
      * 设定角色成员管理范围
+     * <p>
+     * 请求地址：https://oapi.dingtalk.com/topapi/role/scope/update?access_token=ACCESS_TOKEN
+     * <p>
      * 接口文档:https://ding-doc.dingtalk.com/doc#/serverapi2/dnu5l1/23c66112
      *
      * @param userId  用户id

@@ -4,7 +4,7 @@ import com.taobao.api.TaobaoRequest;
 import com.taobao.api.TaobaoResponse;
 
 /**
- * TODO 记得写注释
+ * 钉钉客户端
  *
  * @author: sunshaoping
  * @date: Create by in 7:05 下午 2020/6/10

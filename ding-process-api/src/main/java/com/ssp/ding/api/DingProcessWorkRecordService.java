@@ -3,8 +3,8 @@ package com.ssp.ding.api;
 import com.ssp.ding.exception.DingException;
 import com.ssp.ding.request.ProcessInstanceRequest;
 import com.ssp.ding.request.ProcessInstanceUpdateRequest;
-import org.springframework.lang.Nullable;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**

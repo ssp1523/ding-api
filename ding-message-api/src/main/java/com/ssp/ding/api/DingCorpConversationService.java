@@ -3,7 +3,7 @@ package com.ssp.ding.api;
 import com.ssp.ding.message.DingMessage;
 import com.ssp.ding.request.DingCorpConversationRequest;
 import com.ssp.ding.response.DingSendProgressResponse;
-import com.ssp.ding.responsei.DingSendResultResponse;
+import com.ssp.ding.response.DingSendResultResponse;
 
 /**
  * 工作通知消息

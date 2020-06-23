@@ -5,16 +5,18 @@ import cn.hutool.core.lang.Assert;
 import com.dingtalk.api.request.*;
 import com.dingtalk.api.response.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssp.ding.api.DingDepartmentService;
 import com.ssp.ding.conf.DingDepartmentConf;
 import com.ssp.ding.conf.TypeReferenceConf;
+import com.ssp.ding.exception.DingException;
 import com.ssp.ding.request.DingDepartmentCreateRequest;
 import com.ssp.ding.request.DingDepartmentUpdateRequest;
 import com.ssp.ding.response.DingDepartmentDetailResponse;
 import com.ssp.ding.response.DingDepartmentResponse;
 import com.ssp.ding.service.BaseDingService;
-import com.ssp.ding.exception.DingException;
-import lombok.RequiredArgsConstructor;
+import com.ssp.ding.service.DingClient;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.convert.ConversionService;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -30,10 +32,15 @@ import java.util.stream.Collectors;
  * @date: Create by in 2:09 下午 2020/6/8
  */
 @Slf4j
-@RequiredArgsConstructor
 public class DefaultDingDepartmentService extends BaseDingService implements DingDepartmentService, DingDepartmentConf {
 
     private final ObjectMapper objectMapper;
+
+    public DefaultDingDepartmentService(DingClient dingClient, ConversionService conversionService, ObjectMapper objectMapper) {
+        super(dingClient, conversionService);
+        this.objectMapper = objectMapper;
+    }
+
 
     @Override
     public Long create(DingDepartmentCreateRequest request) throws DingException {
@@ -75,7 +82,7 @@ public class DefaultDingDepartmentService extends BaseDingService implements Din
     }
 
     @Override
-    public List<DingDepartmentResponse> list(Long parentId, Boolean fetchChild) throws DingException {
+    public List<DingDepartmentResponse> list(Long parentId, Boolean fetchChild, Locale lang) throws DingException {
         OapiDepartmentListRequest request = new OapiDepartmentListRequest();
         request.setId(String.valueOf(parentId));
         OapiDepartmentListResponse response = execute(LIST, request);

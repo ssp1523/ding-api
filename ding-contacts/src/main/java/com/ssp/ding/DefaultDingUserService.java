@@ -2,20 +2,19 @@ package com.ssp.ding;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.ObjectUtil;
-import com.ssp.ding.DingUserService;
-import com.ssp.ding.conf.DingUserConf;
-import com.ssp.ding.request.DingUserRequest;
-import com.ssp.ding.enumeration.ContactType;
-import com.ssp.ding.enumeration.OnlyActive;
 import com.dingtalk.api.request.*;
 import com.dingtalk.api.response.*;
+import com.ssp.ding.api.DingUserService;
+import com.ssp.ding.conf.DingUserConf;
+import com.ssp.ding.enumeration.ContactType;
+import com.ssp.ding.enumeration.OnlyActive;
+import com.ssp.ding.exception.DingException;
+import com.ssp.ding.request.DingPageable;
+import com.ssp.ding.request.DingUserRequest;
 import com.ssp.ding.response.*;
 import com.ssp.ding.service.BaseDingService;
-import com.ssp.ding.exception.DingException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import com.ssp.ding.service.DingClient;
+import org.springframework.core.convert.ConversionService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -31,6 +30,10 @@ import java.util.stream.Collectors;
  * @date: Create by in 4:39 下午 2020/6/7
  */
 public class DefaultDingUserService extends BaseDingService implements DingUserService, DingUserConf {
+
+    public DefaultDingUserService(DingClient dingClient, ConversionService conversionService) {
+        super(dingClient, conversionService);
+    }
 
     @Override
     public String create(DingUserRequest request) throws DingException {
@@ -75,26 +78,26 @@ public class DefaultDingUserService extends BaseDingService implements DingUserS
     }
 
     @Override
-    public Page<DingUserSimpleResponse> simpleList(Pageable pageable, Long deptId) throws DingException {
+    public DingPage<DingUserSimpleResponse> simpleList(DingPageable pageable, Long deptId) throws DingException {
         Assert.notNull(deptId, "deptId 必输");
 
         OapiUserSimplelistRequest request = new OapiUserSimplelistRequest();
         request.setDepartmentId(deptId);
-        request.setOffset(pageable.getOffset());
-        request.setSize((long) pageable.getPageSize());
-        request.setOrder(getOrder(pageable));
+        request.setOffset((long) pageable.getOffset());
+        request.setSize((long) pageable.getSize());
+        request.setOrder(pageable.getOrder());
 
         OapiUserSimplelistResponse response = execute(SIMPLE_LIST, request);
         List<OapiUserSimplelistResponse.Userlist> userList = response.getUserlist();
 
         if (CollUtil.isEmpty(userList)) {
-            return Page.empty();
+            return DingPage.empty();
         }
         List<DingUserSimpleResponse> list = userList.stream()
                 .map(this::createDingUserSimpleResponse)
                 .collect(Collectors.toList());
 
-        return new DingPage<>(list, response.getHasMore());
+        return new DingPage<>(response.getHasMore(), list);
     }
 
     private DingUserSimpleResponse createDingUserSimpleResponse(OapiUserSimplelistResponse.Userlist userList) {
@@ -102,52 +105,30 @@ public class DefaultDingUserService extends BaseDingService implements DingUserS
     }
 
     @Override
-    public Page<DingUserResponse> listByPage(Pageable pageable, Long deptId) throws DingException {
+    public DingPage<DingUserResponse> listByPage(DingPageable pageable, Long deptId) throws DingException {
         Assert.notNull(deptId, "deptId 必输");
         Assert.notNull(pageable, "pageable 必输");
 
         OapiUserListbypageRequest request = new OapiUserListbypageRequest();
         request.setDepartmentId(deptId);
-        request.setOffset(pageable.getOffset());
-        request.setSize((long) pageable.getPageSize());
-        request.setOrder(getOrder(pageable));
+        request.setOffset((long) pageable.getOffset());
+        request.setSize((long) pageable.getSize());
+        request.setOrder(pageable.getOrder());
         request.setHttpMethod("GET");
         OapiUserListbypageResponse response = execute(LIST_BY_PAGE, request);
         List<OapiUserListbypageResponse.Userlist> userList = response.getUserlist();
         if (CollUtil.isEmpty(userList)) {
-            return Page.empty();
+            return DingPage.empty();
         }
         List<DingUserResponse> list = userList.stream()
                 .map(this::createDingUserResponse)
                 .collect(Collectors.toList());
 
-        return new DingPage<>(list, response.getHasMore());
+        return new DingPage<>(response.getHasMore(), list);
     }
 
     private DingUserResponse createDingUserResponse(OapiUserListbypageResponse.Userlist userList) {
         return convert(userList, DingUserResponse.class);
-    }
-
-    /**
-     * 支持分页查询，部门成员的排序规则，默认不传是按自定义排序；
-     * <p>
-     * entry_asc：代表按照进入部门的时间升序，
-     * <p>
-     * entry_desc：代表按照进入部门的时间降序，
-     * <p>
-     * modify_asc：代表按照部门信息修改时间升序，
-     * <p>
-     * modify_desc：代表按照部门信息修改时间降序，
-     * <p>
-     * custom：代表用户定义(未定义时按照拼音)排序
-     */
-    private String getOrder(Pageable pageable) {
-        Sort sort = pageable.getSort();
-        if (ObjectUtil.isEmpty(sort)) {
-            return null;
-        }
-        Sort.Order order = sort.iterator().next();
-        return String.join("_", order.getProperty(), order.getDirection().name().toLowerCase());
     }
 
     public static final OapiUserGetAdminRequest GET_ADMIN_REQUEST = new OapiUserGetAdminRequest();
@@ -199,20 +180,20 @@ public class DefaultDingUserService extends BaseDingService implements DingUserS
     }
 
     @Override
-    public Page<String> getInactive(Pageable pageable, LocalDate queryDate) {
+    public DingPage<String> getInactive(DingPageable pageable, LocalDate queryDate) {
         Assert.notNull(pageable, "pageable 必输");
         Assert.notNull(queryDate, "queryDate 必输");
 
         OapiInactiveUserGetRequest request = new OapiInactiveUserGetRequest();
         // 分页偏移量
-        request.setOffset(pageable.getOffset());
+        request.setOffset((long) pageable.getOffset());
         // 每页size，最多100
-        request.setSize((long) pageable.getPageSize());
+        request.setSize((long) pageable.getSize());
         // 查询日期
         request.setQueryDate(DateTimeFormatter.BASIC_ISO_DATE.format(queryDate));
         OapiInactiveUserGetResponse response = execute(GET_INACTIVE_USER, request);
 
         OapiInactiveUserGetResponse.PageVo result = response.getResult();
-        return new DingPage<>(result.getList(), result.getHasMore());
+        return new DingPage<>(result.getHasMore(), result.getList());
     }
 }

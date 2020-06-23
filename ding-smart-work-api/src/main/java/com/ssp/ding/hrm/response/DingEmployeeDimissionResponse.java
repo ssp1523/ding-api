@@ -62,5 +62,5 @@ public class DingEmployeeDimissionResponse {
      * 员工唯一标识ID
      */
     @JsonProperty("userid")
-    private String userid;
+    private String userId;
 }

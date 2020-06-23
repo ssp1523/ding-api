@@ -4,7 +4,8 @@ import com.ssp.ding.FormComponentValue;
 import com.ssp.ding.api.DingProcessService;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.lang.Nullable;
+
+import javax.annotation.Nullable;
 
 import java.util.List;
 

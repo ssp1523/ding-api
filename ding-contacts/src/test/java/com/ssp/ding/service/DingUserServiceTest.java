@@ -1,19 +1,13 @@
 package com.ssp.ding.service;
 
-import com.ssp.ding.BaseTest;
-import com.ssp.ding.enumeration.OnlyActive;
-import com.ssp.ding.request.DingUserRequest;
-import com.ssp.ding.response.AdminResponse;
-import com.ssp.ding.response.DingUserResponse;
-import com.ssp.ding.response.DingUserSimpleResponse;
-import com.ssp.ding.response.UserIdResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.ssp.ding.BaseTest;
+import com.ssp.ding.api.DingUserService;
+import com.ssp.ding.enumeration.OnlyActive;
+import com.ssp.ding.request.DingUserRequest;
+import com.ssp.ding.response.*;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -25,21 +19,16 @@ import java.util.List;
  */
 public class DingUserServiceTest extends BaseTest {
 
-    @Autowired
     DingUserService dingUserService;
 
     ObjectMapper objectMapper = new ObjectMapper();
-    {
-        objectMapper.registerModule(new Jdk8Module());
-    }
-
 
     @Test
     public void create() {
 
         CharSequence userId = dingUserService.create(
                 DingUserRequest.builder()
-                        .departments(Collections.singletonList(150239177L))
+                        .department(Collections.singletonList(150239177L))
                         .name("张无忌")
                         .mobile("13388996655")
                         .build()
@@ -77,14 +66,14 @@ public class DingUserServiceTest extends BaseTest {
 
     @Test
     public void simpleList() throws JsonProcessingException {
-        Page<DingUserSimpleResponse> dingUserSimpleResponses = dingUserService.simpleList(PageRequest.of(0, 10), 82233094L);
+        DingPage<DingUserSimpleResponse> dingUserSimpleResponses = dingUserService.simpleList(82233094L);
         System.out.println(objectMapper.writeValueAsString(dingUserSimpleResponses));
 
     }
 
     @Test
     public void listByPage() throws JsonProcessingException {
-        Page<DingUserResponse> dingUserResponses = dingUserService.listByPage(PageRequest.of(0, 10), 82233094L);
+        DingPage<DingUserResponse> dingUserResponses = dingUserService.listByPage(82233094L);
         System.out.println(objectMapper.writeValueAsString(dingUserResponses));
 
     }
@@ -106,7 +95,7 @@ public class DingUserServiceTest extends BaseTest {
     @Test
     public void getUserIdByUnionId() {
         UserIdResponse userIdResponse = dingUserService.getUserIdByUnionId("KtRAiPhAeK4f6tEEbNOLjuwiEiE");
-        System.out.println(userIdResponse.getContactType()+","+userIdResponse.getUserId());
+        System.out.println(userIdResponse.getContactType() + "," + userIdResponse.getUserId());
     }
 
     @Test
@@ -123,7 +112,7 @@ public class DingUserServiceTest extends BaseTest {
 
     @Test
     public void getInactive() {
-        Page<String> page = dingUserService.getInactive(PageRequest.of(0, 10), LocalDate.now().minusDays(1));
+        DingPage<String> page = dingUserService.getInactive(LocalDate.now().minusDays(1));
         System.out.println(page.getContent());
     }
 }

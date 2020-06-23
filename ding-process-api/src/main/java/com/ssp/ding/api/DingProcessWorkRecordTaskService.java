@@ -4,7 +4,7 @@ import com.ssp.ding.request.*;
 import com.ssp.ding.response.DingPage;
 import com.ssp.ding.response.DingProcessTaskResponse;
 import com.ssp.ding.response.DingUserTaskResponse;
-import org.springframework.lang.Nullable;
+import javax.annotation.Nullable;
 
 import java.util.List;
 
@@ -92,7 +92,7 @@ public interface DingProcessWorkRecordTaskService {
      * @see #query(DingUserTaskQueryRequest)
      */
     default DingPage<DingUserTaskResponse> query(DingUserTaskQueryRequest queryRequest) {
-        return query(DingPageable.DEFAULT, queryRequest);
+        return query(DingPageable.DEFAULT_20, queryRequest);
     }
 
 

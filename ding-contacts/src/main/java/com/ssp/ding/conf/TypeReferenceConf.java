@@ -22,4 +22,9 @@ public interface TypeReferenceConf {
 
     TypeReference<List<List<Long>>> LIST_LIST_LONG = new TypeReference<List<List<Long>>>() {};
 
+    TypeReference<List<Long>> LIST_LONG = new TypeReference<List<Long>>() {};
+
+    TypeReference<List<Long>> LIST_STRING = new TypeReference<List<Long>>() {};
+
+
 }

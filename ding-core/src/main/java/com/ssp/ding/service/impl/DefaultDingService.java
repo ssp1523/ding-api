@@ -56,6 +56,11 @@ public class DefaultDingService implements DingService, DingConf, DingClient {
                 log.info("开始获取钉钉token");
                 OapiGettokenResponse response = dingTalkClientFactory.getClient(GET_TOKEN)
                         .execute(request);
+                if (!response.isSuccess()) {
+                    log.error("钉钉接口失败,错误码:{},错误原因:{},错误子码:{},错误子码原因:{}",
+                            response.getErrorCode(), response.getMsg(), response.getSubCode(), response.getSubMsg());
+                    throw new DingException(response.getErrorCode(), response.getMsg());
+                }
                 dingConfigStorage.updateAccessToken(response.getAccessToken(), Duration.ofSeconds(response.getExpiresIn()));
                 log.info("获取钉钉token成功");
                 return response.getAccessToken();

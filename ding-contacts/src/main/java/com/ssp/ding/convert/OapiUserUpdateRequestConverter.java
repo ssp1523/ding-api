@@ -32,7 +32,7 @@ public class OapiUserUpdateRequestConverter implements Converter<DingUserRequest
     public OapiUserUpdateRequest convert(DingUserRequest dingUserRequest) {
         OapiUserUpdateRequest request = new OapiUserUpdateRequest();
         try {
-            request.setDepartment(dingUserRequest.getDepartments());
+            request.setDepartment(dingUserRequest.getDepartment());
             if (MapUtil.isNotEmpty(dingUserRequest.getExtAttr())) {
                 request.setExtattr(objectMapper.writeValueAsString(dingUserRequest.getExtAttr()));
             }

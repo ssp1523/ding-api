@@ -27,4 +27,10 @@ public interface DingRoleConf {
 
     String SCOPE_UPDATE = "topapi/role/scope/update";
 
+    String ROLE_LIST = "/topapi/role/list";
+
+    String ROLE_SIMPLE_LIST = "/topapi/role/simplelist";
+
+    String ROLE_GET_ROLE_GROUP = "/topapi/role/getrolegroup";
+
 }

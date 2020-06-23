@@ -4,6 +4,7 @@ package com.ssp.ding.response;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,6 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DingPage<T> {
 
+    private static final DingPage<?> EMPTY = new DingPage<>(false, Collections.emptyList());
+
     /**
      * 是否还有更多数据
      */
@@ -24,4 +27,8 @@ public class DingPage<T> {
     private final List<T> content;
 
 
+    @SuppressWarnings("unchecked")
+    public static <T> DingPage<T> empty() {
+        return (DingPage<T>) EMPTY;
+    }
 }
