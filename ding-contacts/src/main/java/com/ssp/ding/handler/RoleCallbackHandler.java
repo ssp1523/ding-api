@@ -1,6 +1,6 @@
 package com.ssp.ding.handler;
 
-import com.ssp.ding.event.RoleCallbackEvent;
+import com.ssp.ding.event.DingRoleCallbackEvent;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nullable;
@@ -15,7 +15,7 @@ import java.util.List;
  * @date: Create by in 3:49 下午 2020/6/19
  */
 @Slf4j
-public abstract class RoleCallbackHandler implements DingCallbackHandler<RoleCallbackEvent> {
+public abstract class RoleCallbackHandler implements DingCallbackHandler<DingRoleCallbackEvent> {
     /**
      * 员工角色信息发生变更
      */
@@ -37,12 +37,12 @@ public abstract class RoleCallbackHandler implements DingCallbackHandler<RoleCal
 
     @Nullable
     @Override
-    public Class<RoleCallbackEvent> parseJsonClass() {
-        return RoleCallbackEvent.class;
+    public Class<DingRoleCallbackEvent> parseJsonClass() {
+        return DingRoleCallbackEvent.class;
     }
 
     @Override
-    public void callback(RoleCallbackEvent event) {
+    public void callback(DingRoleCallbackEvent event) {
         roleCallback(event.getEventType(), event.getRoleIds());
     }
 

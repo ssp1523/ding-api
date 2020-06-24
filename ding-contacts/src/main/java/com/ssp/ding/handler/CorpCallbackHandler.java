@@ -1,6 +1,6 @@
 package com.ssp.ding.handler;
 
-import com.ssp.ding.event.CorpCallbackEvent;
+import com.ssp.ding.event.DingCorpCallbackEvent;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nullable;
@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
  * @date: Create by in 3:49 下午 2020/6/19
  */
 @Slf4j
-public abstract class CorpCallbackHandler implements DingCallbackHandler<CorpCallbackEvent> {
+public abstract class CorpCallbackHandler implements DingCallbackHandler<DingCorpCallbackEvent> {
 
     /**
      * 企业被解散
@@ -29,12 +29,12 @@ public abstract class CorpCallbackHandler implements DingCallbackHandler<CorpCal
 
     @Nullable
     @Override
-    public Class<CorpCallbackEvent> parseJsonClass() {
-        return CorpCallbackEvent.class;
+    public Class<DingCorpCallbackEvent> parseJsonClass() {
+        return DingCorpCallbackEvent.class;
     }
 
     @Override
-    public void callback(CorpCallbackEvent event) {
+    public void callback(DingCorpCallbackEvent event) {
         corpCallback(event.getEventType(), event.getCorpId());
 
     }

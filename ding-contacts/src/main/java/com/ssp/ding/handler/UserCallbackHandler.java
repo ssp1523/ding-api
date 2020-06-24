@@ -1,6 +1,6 @@
 package com.ssp.ding.handler;
 
-import com.ssp.ding.event.UserCallbackEvent;
+import com.ssp.ding.event.DingUserCallbackEvent;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nullable;
@@ -15,7 +15,7 @@ import java.util.List;
  * @date: Create by in 3:49 下午 2020/6/19
  */
 @Slf4j
-public abstract class UserCallbackHandler implements DingCallbackHandler<UserCallbackEvent> {
+public abstract class UserCallbackHandler implements DingCallbackHandler<DingUserCallbackEvent> {
 
 
     /**
@@ -51,12 +51,12 @@ public abstract class UserCallbackHandler implements DingCallbackHandler<UserCal
 
     @Nullable
     @Override
-    public Class<UserCallbackEvent> parseJsonClass() {
-        return UserCallbackEvent.class;
+    public Class<DingUserCallbackEvent> parseJsonClass() {
+        return DingUserCallbackEvent.class;
     }
 
     @Override
-    public void callback(UserCallbackEvent event) {
+    public void callback(DingUserCallbackEvent event) {
         callback(event.getEventType(), event.getUserIds());
 
     }

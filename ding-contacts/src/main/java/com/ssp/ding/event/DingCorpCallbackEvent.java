@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class CorpCallbackEvent extends DefaultCallbackEvent {
+public class DingCorpCallbackEvent extends DefaultCallbackEvent {
 
     @JsonProperty("CorpId")
     private String corpId;

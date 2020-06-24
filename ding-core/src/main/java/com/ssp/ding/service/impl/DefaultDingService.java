@@ -67,7 +67,7 @@ public class DefaultDingService implements DingService, DingConf, DingClient {
             } catch (ApiException e) {
                 log.error("获取钉钉token失败:{},错误码:{},错误原因:{},错误子码:{},错误子码原因:{}",
                         e.getMessage(), e.getErrCode(), e.getErrMsg(), e.getSubErrCode(), e.getSubErrMsg());
-                throw new DingException(e.getErrCode(), e.getErrMsg(), e.getMessage(), e);
+                throw new DingException(e.getErrCode(), e.getErrMsg() + "," + e.getMessage(), e);
             }
         });
 
@@ -126,7 +126,7 @@ public class DefaultDingService implements DingService, DingConf, DingClient {
         } catch (ApiException e) {
             log.error("钉钉接口失败:{},错误码:{},错误原因:{},错误子码:{},错误子码原因:{}",
                     e.getMessage(), e.getErrCode(), e.getErrMsg(), e.getSubErrCode(), e.getSubErrMsg());
-            throw new DingException(e.getErrCode(), e.getErrMsg(), e.getMessage(), e);
+            throw new DingException(e.getErrCode(), e.getErrMsg() + "," + e.getMessage(), e);
 
         }
     }

@@ -15,9 +15,9 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class UserCallbackEvent extends DefaultCallbackEvent {
+public class DingDeptCallbackEvent extends DefaultCallbackEvent {
 
-    @JsonProperty("UserId")
-    private List<String> userIds;
+    @JsonProperty("DeptId")
+    private List<Long> deptIds;
 
 }

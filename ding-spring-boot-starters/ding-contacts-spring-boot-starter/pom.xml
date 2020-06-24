@@ -3,16 +3,25 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>ding-api</artifactId>
+        <artifactId>ding-spring-boot-starters</artifactId>
         <groupId>com.ssp.ding</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ding-callback</artifactId>
-    <description>钉钉回调实现</description>
+    <artifactId>ding-contacts-spring-boot-starter</artifactId>
+
+    <description>通讯录spring-boot-starter</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.ssp.ding</groupId>
+            <artifactId>ding-contacts</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ssp.ding</groupId>
+            <artifactId>ding-callback-spring-boot-starter</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.taobao</groupId>
@@ -20,7 +29,7 @@
             <version>1.0.0-SNAPSHOT</version>
             <scope>system</scope>
             <optional>true</optional>
-            <systemPath>${project.basedir}/../lib/taobao-sdk-java-auto_1479188381469-20200617.jar</systemPath>
+            <systemPath>${project.basedir}/../../lib/taobao-sdk-java-auto_1479188381469-20200617.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -29,22 +38,10 @@
             <version>1.0.0-SNAPSHOT</version>
             <scope>system</scope>
             <optional>true</optional>
-            <systemPath>${project.basedir}/../lib/lippi-oapi-encrpt.jar</systemPath>
+            <systemPath>${project.basedir}/../../lib/lippi-oapi-encrpt.jar</systemPath>
         </dependency>
 
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.ssp.ding</groupId>
-            <artifactId>ding-callback-api</artifactId>
-        </dependency>
 
-        <dependency>
-            <groupId>com.ssp.ding</groupId>
-            <artifactId>ding-core</artifactId>
-        </dependency>
     </dependencies>
 
 </project>

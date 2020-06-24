@@ -13,27 +13,18 @@ public class DingException extends RuntimeException {
 
     private final String errCode;
 
-    private final String errMsg;
-
-
     public DingException(String errCode, String errMsg) {
-        this(errCode, errMsg, errMsg);
+        super(errMsg);
+        this.errCode = errCode;
     }
 
     public DingException(String message, Throwable e) {
-        this(null, null, message, e);
+        this(null, message, e);
     }
 
-    public DingException(String errCode, String errMsg, String message) {
-        super(message);
-        this.errCode = errCode;
-        this.errMsg = errMsg;
-    }
-
-    public DingException(String errCode, String errMsg, String message, Throwable e) {
+    public DingException(String errCode, String message, Throwable e) {
         super(message, e);
         this.errCode = errCode;
-        this.errMsg = errMsg;
     }
 
 }

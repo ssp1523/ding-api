@@ -1,6 +1,5 @@
 package com.ssp.ding.configuration;
 
-import com.dingtalk.api.DingTalkClient;
 import com.ssp.ding.DingConfigStorage;
 import com.ssp.ding.DingService;
 import com.ssp.ding.properties.DingConfigStorageImpl;
@@ -11,13 +10,14 @@ import com.ssp.ding.service.impl.DefaultDingTalkClientFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
- * 配置类
+ * 钉钉自动装配
  *
  * @author: sunshaoping
  * @date: Create by in 4:24 下午 2020/6/7
@@ -26,14 +26,15 @@ import org.springframework.context.annotation.Import;
 @Import(ConverterConfiguration.class)
 @RequiredArgsConstructor
 @EnableConfigurationProperties(DingProperties.class)
-@ConditionalOnClass(DingTalkClient.class)
+@ConditionalOnClass(DingService.class)
+@ConditionalOnProperty(prefix = DingProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class DingConfiguration {
 
     private final DingProperties dingProperties;
 
     @Bean
-    @ConditionalOnMissingBean
-    public DingService dingService(DingConfigStorage dingConfigStorage, DingTalkClientFactory dingTalkClientFactory) {
+    @ConditionalOnMissingBean(name = "dingService")
+    public DefaultDingService dingService(DingConfigStorage dingConfigStorage, DingTalkClientFactory dingTalkClientFactory) {
         return new DefaultDingService(dingConfigStorage, dingTalkClientFactory);
     }
 

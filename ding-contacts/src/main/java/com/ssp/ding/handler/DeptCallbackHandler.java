@@ -1,6 +1,6 @@
 package com.ssp.ding.handler;
 
-import com.ssp.ding.event.DeptCallbackEvent;
+import com.ssp.ding.event.DingDeptCallbackEvent;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nullable;
@@ -15,7 +15,7 @@ import java.util.List;
  * @date: Create by in 3:49 下午 2020/6/19
  */
 @Slf4j
-public abstract class DeptCallbackHandler implements DingCallbackHandler<DeptCallbackEvent> {
+public abstract class DeptCallbackHandler implements DingCallbackHandler<DingDeptCallbackEvent> {
     /**
      * 通讯录企业部门创建
      */
@@ -33,12 +33,12 @@ public abstract class DeptCallbackHandler implements DingCallbackHandler<DeptCal
 
     @Nullable
     @Override
-    public Class<DeptCallbackEvent> parseJsonClass() {
-        return DeptCallbackEvent.class;
+    public Class<DingDeptCallbackEvent> parseJsonClass() {
+        return DingDeptCallbackEvent.class;
     }
 
     @Override
-    public void callback(DeptCallbackEvent event) {
+    public void callback(DingDeptCallbackEvent event) {
         deptCallback(event.getEventType(), event.getDeptIds());
     }
 
