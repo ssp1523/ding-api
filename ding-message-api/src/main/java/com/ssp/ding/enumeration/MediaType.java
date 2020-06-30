@@ -27,6 +27,8 @@ public enum MediaType {
     FILE("file");
     private final String type;
 
-    MediaType(String type) {this.type = type;}
+    MediaType(String type) {
+        this.type = type;
+    }
 
 }

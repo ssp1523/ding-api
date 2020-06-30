@@ -1,5 +1,6 @@
 package com.ssp.ding.response;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -9,6 +10,7 @@ import lombok.Data;
  * @date: Create by in 6:14 下午 2020/6/15
  */
 @Data
+@Builder
 public class DingChatCreateResponse {
 
     /**

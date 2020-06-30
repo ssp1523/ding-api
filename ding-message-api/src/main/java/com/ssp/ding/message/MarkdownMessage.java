@@ -12,7 +12,6 @@ import lombok.Getter;
  * @date: Create by in 7:40 下午 2020/6/15
  */
 @Getter
-@Builder
 public class MarkdownMessage extends DingMessage {
     /**
      * 首屏会话透出的展示内容
@@ -24,6 +23,11 @@ public class MarkdownMessage extends DingMessage {
      */
     @JsonProperty("text")
     private final String text;
+
+    public MarkdownMessage(String title, String text) {
+        this.title = title;
+        this.text = text;
+    }
 
     @Override
     public MsgType getMsgType() {

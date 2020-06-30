@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollUtil;
 import com.dingtalk.api.request.*;
 import com.dingtalk.api.response.OapiCallBackGetCallBackFailedResultResponse;
 import com.dingtalk.api.response.OapiCallBackGetCallBackResponse;
-import com.ssp.ding.api.DingCallbackManageService;
 import com.ssp.ding.response.DingCallBackFailedResponse;
 import com.ssp.ding.response.DingPage;
 import com.ssp.ding.service.BaseDingService;

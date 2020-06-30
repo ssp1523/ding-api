@@ -1,11 +1,29 @@
 # ding-api
 
 #### 介绍
-{**以下是码云平台说明，您可以替换此简介**
-码云是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用码云实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+钉钉服务端API封装
+
+- 钉钉文档:https://ding-doc.dingtalk.com/doc#/serverapi2/gh60vz/8bRxA
+
+
+
+#### 支持
+
+- 身份验证
+
+- 通讯录管理
+- 业务事件回调
+- 智能人事
+- 待办任务
+
+#### 其他说明
+
+- **阅读源码的同学请注意，为简化代码编译时加入了`lombok`支持，如果不了解`lombok`的话，请先学习下相关知识，比如可以阅读[官方文档](https://projectlombok.org/)**
+- 要求最低使用JDK1.8
+- 
 
 #### 软件架构
+
 软件架构说明
 
 

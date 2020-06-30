@@ -1,5 +1,6 @@
 package com.ssp.ding.response;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -9,6 +10,7 @@ import lombok.Data;
  * @date: Create by in 5:08 下午 2020/6/15
  */
 @Data
+@Builder
 public class DingUserInfoResponse {
     /**
      * 是否是管理员，true：是，false：不是

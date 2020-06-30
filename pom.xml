@@ -28,6 +28,7 @@
         <module>ding-callback-api</module>
         <module>ding-callback</module>
         <module>ding-spring-boot-starters</module>
+        <module>ding-message</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>
@@ -98,6 +99,11 @@
             <dependency>
                 <groupId>com.ssp.ding</groupId>
                 <artifactId>ding-contacts</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ssp.ding</groupId>
+                <artifactId>ding-message-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

@@ -8,7 +8,6 @@ import com.dingtalk.oapi.lib.aes.Utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssp.ding.api.DingCallbackService;
 import com.ssp.ding.exception.DingException;
 import com.ssp.ding.handler.CallbackEvent;
 import com.ssp.ding.handler.DingCallbackHandler;

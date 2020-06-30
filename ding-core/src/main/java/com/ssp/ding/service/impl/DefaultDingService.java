@@ -4,16 +4,20 @@ import cn.hutool.core.util.StrUtil;
 import com.dingtalk.api.DingTalkClient;
 import com.dingtalk.api.request.OapiGetJsapiTicketRequest;
 import com.dingtalk.api.request.OapiGettokenRequest;
+import com.dingtalk.api.request.OapiSnsGetuserinfoBycodeRequest;
+import com.dingtalk.api.request.OapiUserGetuserinfoRequest;
 import com.dingtalk.api.response.OapiGetJsapiTicketResponse;
 import com.dingtalk.api.response.OapiGettokenResponse;
+import com.dingtalk.api.response.OapiSnsGetuserinfoBycodeResponse;
+import com.dingtalk.api.response.OapiUserGetuserinfoResponse;
 import com.ssp.ding.DingConfigStorage;
 import com.ssp.ding.DingService;
 import com.ssp.ding.conf.DingConf;
+import com.ssp.ding.exception.DingException;
 import com.ssp.ding.response.DingSnsUserInfoResponse;
 import com.ssp.ding.response.DingUserInfoResponse;
 import com.ssp.ding.service.DingClient;
 import com.ssp.ding.service.DingTalkClientFactory;
-import com.ssp.ding.exception.DingException;
 import com.taobao.api.ApiException;
 import com.taobao.api.TaobaoRequest;
 import com.taobao.api.TaobaoResponse;
@@ -100,14 +104,47 @@ public class DefaultDingService implements DingService, DingConf, DingClient {
 
     @Override
     public DingUserInfoResponse getUserInfo(String code) {
-        //TODO
-        return null;
+
+        OapiUserGetuserinfoRequest request = new OapiUserGetuserinfoRequest();
+        request.setCode(code);
+        OapiUserGetuserinfoResponse response = execute("/user/getuserinfo", request);
+        String userId = response.getUserid();
+
+        return DingUserInfoResponse.builder()
+                .userId(userId)
+                .isSys(response.getIsSys())
+                .sysLevel(response.getSysLevel())
+                .build();
     }
 
     @Override
-    public DingSnsUserInfoResponse getUserInfoByCode(String tmpAuthCode) {
-        //TODO
-        return null;
+    public DingSnsUserInfoResponse getUserInfoByCode(String tmpAuthCode, String appId, String appSecret) {
+        try {
+            OapiSnsGetuserinfoBycodeRequest request = new OapiSnsGetuserinfoBycodeRequest();
+            request.setTmpAuthCode(tmpAuthCode);
+            log.info("钉钉请求信息,{},{},{}", request.getTopHttpMethod(), "/user/getuserinfo", request.getTextParams());
+
+            OapiSnsGetuserinfoBycodeResponse response =
+                    dingTalkClientFactory.getClient("/user/getuserinfo")
+                            .execute(request, appId, appSecret);
+            log.info("钉钉响应信息:{}", response.getBody());
+            if (response.isSuccess()) {
+                OapiSnsGetuserinfoBycodeResponse.UserInfo userInfo = response.getUserInfo();
+                return DingSnsUserInfoResponse.builder()
+                        .nick(userInfo.getNick())
+                        .openId(userInfo.getOpenid())
+                        .unionId(userInfo.getUnionid())
+                        .build();
+            }
+            log.error("钉钉接口失败,错误码:{},错误原因:{},错误子码:{},错误子码原因:{}",
+                    response.getErrorCode(), response.getMsg(), response.getSubCode(), response.getSubMsg());
+            throw new DingException(response.getErrorCode(), response.getMsg());
+        } catch (ApiException e) {
+            log.error("钉钉接口失败:{},错误码:{},错误原因:{},错误子码:{},错误子码原因:{}",
+                    e.getMessage(), e.getErrCode(), e.getErrMsg(), e.getSubErrCode(), e.getSubErrMsg());
+            throw new DingException(e.getErrCode(), e.getErrMsg() + "," + e.getMessage(), e);
+        }
+
     }
 
     public <T extends TaobaoResponse> T execute(String path, TaobaoRequest<T> request) throws DingException {

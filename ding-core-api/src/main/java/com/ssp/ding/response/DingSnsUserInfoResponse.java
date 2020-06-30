@@ -1,13 +1,17 @@
 package com.ssp.ding.response;
 
+import lombok.Builder;
+import lombok.Data;
+
 /**
  * 用户信息
  *
  * @author: sunshaoping
  * @date: Create by in 4:57 下午 2020/6/15
  */
+@Data
+@Builder
 public class DingSnsUserInfoResponse {
-
 
     /**
      * 用户在钉钉上面的昵称

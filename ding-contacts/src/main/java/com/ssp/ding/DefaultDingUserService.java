@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import com.dingtalk.api.request.*;
 import com.dingtalk.api.response.*;
-import com.ssp.ding.api.DingUserService;
 import com.ssp.ding.conf.DingUserConf;
 import com.ssp.ding.enumeration.ContactType;
 import com.ssp.ding.enumeration.OnlyActive;

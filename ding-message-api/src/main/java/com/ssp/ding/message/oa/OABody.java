@@ -1,6 +1,7 @@
 package com.ssp.ding.message.oa;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ssp.ding.DingMediaService;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -31,7 +32,7 @@ public class OABody {
     @JsonProperty("content")
     private final String content;
     /**
-     * 消息体中的图片，支持图片资源@mediaId {@link com.ssp.ding.api.DingMediaService}
+     * 消息体中的图片，支持图片资源@mediaId {@link DingMediaService}
      */
     @JsonProperty("image")
     private final String image;

@@ -3,7 +3,7 @@ package com.ssp.ding.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssp.ding.BaseTest;
-import com.ssp.ding.api.DingUserService;
+import com.ssp.ding.DingUserService;
 import com.ssp.ding.enumeration.OnlyActive;
 import com.ssp.ding.request.DingUserRequest;
 import com.ssp.ding.response.*;

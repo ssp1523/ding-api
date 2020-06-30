@@ -5,7 +5,6 @@ import cn.hutool.core.lang.Assert;
 import com.dingtalk.api.request.*;
 import com.dingtalk.api.response.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssp.ding.api.DingDepartmentService;
 import com.ssp.ding.conf.DingDepartmentConf;
 import com.ssp.ding.conf.TypeReferenceConf;
 import com.ssp.ding.exception.DingException;

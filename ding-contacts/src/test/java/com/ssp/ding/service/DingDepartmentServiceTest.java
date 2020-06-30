@@ -2,7 +2,7 @@ package com.ssp.ding.service;
 
 import cn.hutool.core.lang.Singleton;
 import com.ssp.ding.BaseTest;
-import com.ssp.ding.api.DingDepartmentService;
+import com.ssp.ding.DingDepartmentService;
 import com.ssp.ding.request.DingDepartmentCreateRequest;
 import org.junit.Test;
 

@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import com.dingtalk.api.request.*;
 import com.dingtalk.api.response.*;
-import com.ssp.ding.api.DingRoleService;
 import com.ssp.ding.conf.DingRoleConf;
 import com.ssp.ding.request.DingPageable;
 import com.ssp.ding.response.DingPage;
