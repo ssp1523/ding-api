@@ -2,6 +2,7 @@ package com.ssp.ding.request;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -14,6 +15,15 @@ import java.util.List;
 @Getter
 @Builder
 public class DingSaveProcessRequest {
+    /**
+     * 模板的唯一码。
+     * <p>
+     * 不传，表示新建一个模板；
+     * <p>
+     * 传值，表示更新所传值对应的模板
+     */
+    @Setter
+    private String processCode;
     /**
      * 企业微应用标识
      */

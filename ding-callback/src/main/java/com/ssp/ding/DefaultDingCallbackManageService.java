@@ -14,6 +14,8 @@ import org.springframework.core.convert.ConversionService;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.ssp.ding.DingCallbackManageService.Api.*;
+
 /**
  * 钉钉回调管理默认实现
  *
@@ -41,7 +43,7 @@ public class DefaultDingCallbackManageService extends BaseDingService implements
         request.setAesKey(callback.getAesKey());
         request.setToken(callback.getToken());
         request.setCallBackTag(callback.getCallBackTag());
-        execute("/call_back/register_call_back", request);
+        execute(REGISTER_CALL_BACK, request);
     }
 
     @Override
@@ -60,7 +62,7 @@ public class DefaultDingCallbackManageService extends BaseDingService implements
     @Override
     public DingCallback getCallBack() {
         OapiCallBackGetCallBackRequest request = new OapiCallBackGetCallBackRequest();
-        OapiCallBackGetCallBackResponse response = execute("/call_back/get_call_back", request);
+        OapiCallBackGetCallBackResponse response = execute(GET_CALL_BACK, request);
 
         return DingCallback.builder()
                 .url(response.getUrl())
@@ -78,7 +80,7 @@ public class DefaultDingCallbackManageService extends BaseDingService implements
         callBackRequest.setAesKey(request.getAesKey());
         callBackRequest.setToken(request.getToken());
         callBackRequest.setCallBackTag(request.getCallBackTag());
-        execute("/call_back/update_call_back", callBackRequest);
+        execute(UPDATE_CALL_BACK, callBackRequest);
 
     }
 
@@ -98,13 +100,13 @@ public class DefaultDingCallbackManageService extends BaseDingService implements
     public void deleteCallBack() {
         OapiCallBackDeleteCallBackRequest request = new OapiCallBackDeleteCallBackRequest();
         request.setHttpMethod("GET");
-        execute("/call_back/delete_call_back", request);
+        execute(DELETE_CALL_BACK, request);
     }
 
     @Override
     public DingPage<DingCallBackFailedResponse> getCallBackFailedResult() {
         OapiCallBackGetCallBackFailedResultRequest request = new OapiCallBackGetCallBackFailedResultRequest();
-        OapiCallBackGetCallBackFailedResultResponse response = execute("/call_back/get_call_back_failed_result", request);
+        OapiCallBackGetCallBackFailedResultResponse response = execute(GET_CALL_BACK_FAILED_RESULT, request);
         List<OapiCallBackGetCallBackFailedResultResponse.Failed> failedList = response.getFailedList();
         if (CollUtil.isEmpty(failedList)) {
             return DingPage.empty();

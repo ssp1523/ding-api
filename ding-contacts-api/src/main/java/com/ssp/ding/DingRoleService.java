@@ -5,6 +5,8 @@ import com.ssp.ding.response.DingPage;
 import com.ssp.ding.response.DingRoleGroupResponse;
 import com.ssp.ding.response.DingRoleResponse;
 import com.ssp.ding.response.RoleUserSimpleResponse;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -166,5 +168,69 @@ public interface DingRoleService {
      * @param deptIds 部门id列表，最多50个，不传则设置范围为默认值：所有人
      */
     void scopeUpdate(String userId, Long roleId, List<Long> deptIds);
+
+
+    /**
+     * 接口api
+     */
+    @Getter
+    @RequiredArgsConstructor
+    enum Api implements DingApi {
+
+        /**
+         * @see #addRole(Long, String)
+         */
+        ADD_ROLE("role/add_role", "创建角色"),
+        /**
+         * @see #updateRole(Long, String)
+         */
+        UPDATE_ROLE("role/update_role", "更新角色"),
+        /**
+         * @see #addRoleGroup(String)
+         */
+        ADD_ROLE_GROUP("role/add_role_group", "创建角色组"),
+        /**
+         * @see #deleteRole(Long)
+         */
+        DELETE_ROLE("topapi/role/deleterole", "删除角色"),
+        /**
+         * @see #getRole(Long)
+         */
+        GET_ROLE("topapi/role/getrole", "获取角色详情"),
+        /**
+         * @see #addRolesForemps(List, List)
+         */
+        ADD_ROLES_FOREMPS("topapi/role/addrolesforemps", "批量增加员工角色"),
+        /**
+         * @see #removeRolesForemps(List, List)
+         */
+        REMOVE_ROLES_FOREMPS("topapi/role/removerolesforemps", "批量删除员工角色"),
+        /**
+         * @see #scopeUpdate(String, Long, List)
+         */
+        SCOPE_UPDATE("topapi/role/scope/update", "设定角色成员管理范围"),
+        /**
+         * @see #list(DingPageable)
+         * @see #list()
+         */
+        ROLE_LIST("/topapi/role/list", "获取角色列表"),
+        /**
+         * @see #simpleList(DingPageable, Long)
+         * @see #simpleList(Long)
+         */
+        ROLE_SIMPLE_LIST("/topapi/role/simplelist", "获取角色下的员工列表"),
+        /**
+         * @see #getRoleGroup(Long)
+         */
+        ROLE_GET_ROLE_GROUP("/topapi/role/getrolegroup", "获取角色组"),
+
+
+        ;
+
+        private final String path;
+
+        private final String sketch;
+
+    }
 
 }

@@ -29,6 +29,8 @@
         <module>ding-callback</module>
         <module>ding-spring-boot-starters</module>
         <module>ding-message</module>
+        <module>ding-process</module>
+        <module>ding-robot-api</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>
@@ -104,6 +106,16 @@
             <dependency>
                 <groupId>com.ssp.ding</groupId>
                 <artifactId>ding-message-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ssp.ding</groupId>
+                <artifactId>ding-message</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ssp.ding</groupId>
+                <artifactId>ding-process-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

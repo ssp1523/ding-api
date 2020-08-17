@@ -3,6 +3,8 @@ package com.ssp.ding;
 import com.ssp.ding.enumeration.MediaType;
 import com.ssp.ding.exception.DingException;
 import com.ssp.ding.response.DingMediaResponse;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 
 import java.io.File;
@@ -69,4 +71,24 @@ public interface DingMediaService {
      * @param content   文件字节数组
      */
     DingMediaResponse upload(MediaType mediaType, String fileName, byte[] content) throws DingException;
+
+
+    /**
+     * 接口api
+     */
+    @Getter
+    @RequiredArgsConstructor
+    enum Api implements DingApi {
+
+        /**
+         * @see DingMediaService
+         */
+        UPLOAD("/media/upload", "上传媒体文件"),
+        ;
+
+        private final String path;
+
+        private final String sketch;
+
+    }
 }

@@ -20,6 +20,8 @@ import org.springframework.core.convert.ConversionService;
 
 import java.util.List;
 
+import static com.ssp.ding.DingCorpConversationService.Api.*;
+
 /**
  * 工作通知消息默认实现
  *
@@ -33,7 +35,7 @@ public class DefaultDingCorpConversationService extends BaseDingService implemen
     private final DingMediaService dingMediaService;
 
 
-    protected DefaultDingCorpConversationService(DingClient dingClient, ConversionService conversionService, ObjectMapper objectMapper, DingMediaService dingMediaService) {
+    public DefaultDingCorpConversationService(DingClient dingClient, ConversionService conversionService, ObjectMapper objectMapper, DingMediaService dingMediaService) {
         super(dingClient, conversionService);
         this.objectMapper = objectMapper;
         this.dingMediaService = dingMediaService;
@@ -53,7 +55,7 @@ public class DefaultDingCorpConversationService extends BaseDingService implemen
                     req.setToAllUser(request.getToAllUser());
                     req.setDeptIdList(StrUtil.join(DingConf.COMMA, deptIdList.toArray()));
                     req.setMsg(msg);
-                    OapiMessageCorpconversationAsyncsendV2Response response = execute("/topapi/message/corpconversation/asyncsend_v2", req);
+                    OapiMessageCorpconversationAsyncsendV2Response response = execute(ASYNC_SEND_V2, req);
                     return response.getTaskId();
 
                 }).mediaService(dingMediaService);
@@ -65,7 +67,7 @@ public class DefaultDingCorpConversationService extends BaseDingService implemen
         request.setAgentId(agentId);
         request.setTaskId(taskId);
         OapiMessageCorpconversationGetsendprogressResponse response =
-                execute("/topapi/message/corpconversation/getsendprogress", request);
+                execute(GET_SEND_PROGRESS, request);
         OapiMessageCorpconversationGetsendprogressResponse.AsyncSendProgress progress = response.getProgress();
 
         return convert(progress, DingSendProgressResponse.class);
@@ -76,7 +78,7 @@ public class DefaultDingCorpConversationService extends BaseDingService implemen
         OapiMessageCorpconversationGetsendresultRequest request = new OapiMessageCorpconversationGetsendresultRequest();
         request.setAgentId(agentId);
         request.setTaskId(taskId);
-        OapiMessageCorpconversationGetsendresultResponse response = execute("/topapi/message/corpconversation/getsendresult", request);
+        OapiMessageCorpconversationGetsendresultResponse response = execute(GET_SEND_RESULT, request);
         return convert(response, DingSendResultResponse.class);
     }
 
@@ -85,6 +87,6 @@ public class DefaultDingCorpConversationService extends BaseDingService implemen
         OapiMessageCorpconversationRecallRequest request = new OapiMessageCorpconversationRecallRequest();
         request.setAgentId(agentId);
         request.setMsgTaskId(taskId);
-        execute("/topapi/message/corpconversation/recall", request);
+        execute(RECALL, request);
     }
 }

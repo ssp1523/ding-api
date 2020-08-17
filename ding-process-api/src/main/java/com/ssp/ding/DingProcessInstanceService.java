@@ -1,12 +1,11 @@
 package com.ssp.ding;
 
 import com.ssp.ding.exception.DingException;
-import com.ssp.ding.request.DingPageable;
-import com.ssp.ding.request.DingProcessInstanceCreateRequest;
-import com.ssp.ding.request.DingProcessInstanceListIdsRequest;
-import com.ssp.ding.request.GrantCspaceRequest;
+import com.ssp.ding.request.*;
 import com.ssp.ding.response.DingCursorPage;
 import com.ssp.ding.response.ProcessInstanceDetailResponse;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 工作流实例
@@ -65,13 +64,13 @@ public interface DingProcessInstanceService {
      * @return 发起人用户id列表，最大列表长度：10
      */
 
-    DingCursorPage<String> listIds(DingPageable pageable, DingProcessInstanceListIdsRequest listIdsRequest) throws DingException;
+    DingCursorPage<String> listIds(DingCursorPageable pageable, DingProcessInstanceListIdsRequest listIdsRequest) throws DingException;
 
     /**
-     * @see #listIds(DingPageable, DingProcessInstanceListIdsRequest)
+     * @see #listIds(DingCursorPageable, DingProcessInstanceListIdsRequest)
      */
     default DingCursorPage<String> listIds(DingProcessInstanceListIdsRequest listIdsRequest) throws DingException {
-        return listIds(DingPageable.DEFAULT_20, listIdsRequest);
+        return listIds(DingCursorPageable.DEFAULT_20, listIdsRequest);
     }
 
     /**
@@ -128,4 +127,40 @@ public interface DingProcessInstanceService {
     void cspacePreview(GrantCspaceRequest cspaceRequest) throws DingException;
 
 
+    /**
+     * 接口api
+     */
+    @Getter
+    @RequiredArgsConstructor
+    enum Api implements DingApi {
+
+        /**
+         * @see #create(DingProcessInstanceCreateRequest)
+         */
+        CREATE("/topapi/processinstance/create", "发起审批实例"),
+        /**
+         * @see #listIds(DingCursorPageable, DingProcessInstanceListIdsRequest)
+         * @see #listIds(DingProcessInstanceListIdsRequest)
+         */
+        LIST_IDS("/topapi/processinstance/listids", "批量获取审批实例id"),
+        /**
+         * @see #get(String)
+         */
+        GET("/topapi/processinstance/get", "获取审批实例详情"),
+        /**
+         * @see #cspaceInfo(String)
+         */
+        CSPACE_INFO("/topapi/processinstance/cspace/info", "获取审批钉盘空间信息"),
+        /**
+         * @see #cspacePreview(GrantCspaceRequest)
+         */
+        CSPACE_PREVIEW("/topapi/processinstance/cspace/preview", "预览审批附件"),
+
+        ;
+
+        private final String path;
+
+        private final String sketch;
+
+    }
 }

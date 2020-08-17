@@ -22,10 +22,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.converter.ConverterRegistry;
 
 import static com.ssp.ding.configuration.ConverterConfiguration.DING_CONVERSION_SERVICE;
+import static com.ssp.ding.configuration.ConverterConfiguration.DING_OBJECT_MAPPER;
 import static com.ssp.ding.properties.DingCallbackProperties.PREFIX;
 
 
@@ -46,7 +48,7 @@ public class ContactsAutoConfiguration implements ConverterConfigurer {
 
     private final ConversionService conversionService;
 
-    public ContactsAutoConfiguration(ObjectMapper objectMapper, DingClient dingClient,
+    public ContactsAutoConfiguration(@Lazy @Qualifier(DING_OBJECT_MAPPER) ObjectMapper objectMapper, DingClient dingClient,
                                      @Qualifier(DING_CONVERSION_SERVICE) ConversionService conversionService) {
         this.objectMapper = objectMapper;
         this.dingClient = dingClient;
@@ -78,8 +80,11 @@ public class ContactsAutoConfiguration implements ConverterConfigurer {
         converterRegistry.addConverter(new OapiUserCreateRequestConverter(objectMapper));
         converterRegistry.addConverter(new OapiUserUpdateRequestConverter(objectMapper));
         converterRegistry.addConverter(new AdminResponseConverter());
+        converterRegistry.addConverter(new DingRoleResponseConverter());
+        converterRegistry.addConverter(new DingRoleGroupResponseConverter());
         converterRegistry.addConverter(new OapiDepartmentCreateRequestConverter());
         converterRegistry.addConverter(new DingDepartmentResponseConverter());
+        converterRegistry.addConverter(new DingUserListResponseConverter(objectMapper));
     }
 
     @Configuration

@@ -4,9 +4,9 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import com.dingtalk.api.request.*;
 import com.dingtalk.api.response.*;
-import com.ssp.ding.conf.DingUserConf;
 import com.ssp.ding.enumeration.ContactType;
 import com.ssp.ding.enumeration.OnlyActive;
+import com.ssp.ding.error.ContactsError;
 import com.ssp.ding.exception.DingException;
 import com.ssp.ding.request.DingPageable;
 import com.ssp.ding.request.DingUserRequest;
@@ -19,7 +19,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static com.ssp.ding.DingUserService.Api.*;
 
 
 /**
@@ -28,7 +31,7 @@ import java.util.stream.Collectors;
  * @author: sunshaoping
  * @date: Create by in 4:39 下午 2020/6/7
  */
-public class DefaultDingUserService extends BaseDingService implements DingUserService, DingUserConf {
+public class DefaultDingUserService extends BaseDingService implements DingUserService {
 
     public DefaultDingUserService(DingClient dingClient, ConversionService conversionService) {
         super(dingClient, conversionService);
@@ -37,7 +40,19 @@ public class DefaultDingUserService extends BaseDingService implements DingUserS
     @Override
     public String create(DingUserRequest request) throws DingException {
         OapiUserCreateRequest createRequest = convert(request, OapiUserCreateRequest.class);
-        OapiUserCreateResponse response = execute(CREATE, createRequest);
+        OapiUserCreateResponse response;
+        try {
+            response = execute(CREATE, createRequest);
+        } catch (DingException e) {
+            if (ContactsError.PHONE_IN_CORP_EXIST.eqErrCode(e)
+                    && Objects.nonNull(e.getSource())
+                    && e.getSource() instanceof OapiUserCreateResponse) {
+                response = e.getSource();
+            } else {
+                throw e;
+            }
+        }
+
         return response.getUserid();
     }
 
@@ -59,7 +74,7 @@ public class DefaultDingUserService extends BaseDingService implements DingUserS
     }
 
     @Override
-    public DingUserResponse getUser(String userId) throws DingException {
+    public DingUserResponse get(String userId) throws DingException {
         Assert.notBlank(userId, "userId 必输");
         OapiUserGetRequest request = new OapiUserGetRequest();
         request.setUserid(userId);
@@ -104,7 +119,7 @@ public class DefaultDingUserService extends BaseDingService implements DingUserS
     }
 
     @Override
-    public DingPage<DingUserResponse> listByPage(DingPageable pageable, Long deptId) throws DingException {
+    public DingPage<DingUserListResponse> listByPage(DingPageable pageable, Long deptId) throws DingException {
         Assert.notNull(deptId, "deptId 必输");
         Assert.notNull(pageable, "pageable 必输");
 
@@ -119,15 +134,15 @@ public class DefaultDingUserService extends BaseDingService implements DingUserS
         if (CollUtil.isEmpty(userList)) {
             return DingPage.empty();
         }
-        List<DingUserResponse> list = userList.stream()
+        List<DingUserListResponse> list = userList.stream()
                 .map(this::createDingUserResponse)
                 .collect(Collectors.toList());
 
         return new DingPage<>(response.getHasMore(), list);
     }
 
-    private DingUserResponse createDingUserResponse(OapiUserListbypageResponse.Userlist userList) {
-        return convert(userList, DingUserResponse.class);
+    private DingUserListResponse createDingUserResponse(OapiUserListbypageResponse.Userlist userList) {
+        return convert(userList, DingUserListResponse.class);
     }
 
     public static final OapiUserGetAdminRequest GET_ADMIN_REQUEST = new OapiUserGetAdminRequest();

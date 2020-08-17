@@ -20,7 +20,7 @@
             <version>1.0.0-SNAPSHOT</version>
             <scope>system</scope>
             <optional>true</optional>
-            <systemPath>${project.basedir}/../lib/taobao-sdk-java-auto_1479188381469-20200617.jar</systemPath>
+            <systemPath>${project.basedir}/../lib/taobao-sdk-java-auto_1479188381469-20200813.jar</systemPath>
         </dependency>
 
         <dependency>

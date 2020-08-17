@@ -2,9 +2,11 @@ package com.ssp.ding.configuration;
 
 import com.ssp.ding.DingConfigStorage;
 import com.ssp.ding.DingService;
-import com.ssp.ding.properties.DingConfigStorageImpl;
+import com.ssp.ding.config.DingConfigStorageImpl;
 import com.ssp.ding.properties.DingProperties;
+import com.ssp.ding.service.DingLogger;
 import com.ssp.ding.service.DingTalkClientFactory;
+import com.ssp.ding.service.impl.DefaultDingLogger;
 import com.ssp.ding.service.impl.DefaultDingService;
 import com.ssp.ding.service.impl.DefaultDingTalkClientFactory;
 import lombok.RequiredArgsConstructor;
@@ -34,8 +36,14 @@ public class DingConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(name = "dingService")
-    public DefaultDingService dingService(DingConfigStorage dingConfigStorage, DingTalkClientFactory dingTalkClientFactory) {
-        return new DefaultDingService(dingConfigStorage, dingTalkClientFactory);
+    public DefaultDingService dingService(DingConfigStorage dingConfigStorage, DingTalkClientFactory dingTalkClientFactory, DingLogger logger) {
+        return new DefaultDingService(dingConfigStorage, dingTalkClientFactory, logger);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public DingLogger dingLogger() {
+        return new DefaultDingLogger();
     }
 
     @Bean

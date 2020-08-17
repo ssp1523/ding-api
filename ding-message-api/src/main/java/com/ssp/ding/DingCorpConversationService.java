@@ -3,6 +3,8 @@ package com.ssp.ding;
 import com.ssp.ding.request.DingCorpConversationRequest;
 import com.ssp.ding.response.DingSendProgressResponse;
 import com.ssp.ding.response.DingSendResultResponse;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 工作通知消息
@@ -80,4 +82,36 @@ public interface DingCorpConversationService {
      */
     void recall(Long agentId, Long taskId);
 
+
+    /**
+     * 接口api
+     */
+    @Getter
+    @RequiredArgsConstructor
+    enum Api implements DingApi {
+
+        /**
+         * @see #asyncSendV2(DingCorpConversationRequest)
+         */
+        ASYNC_SEND_V2("/topapi/message/corpconversation/asyncsend_v2", "发送异步工作通知消息"),
+        /**
+         * @see #getSendProgress(Long, Long)
+         */
+        GET_SEND_PROGRESS("/topapi/message/corpconversation/getsendprogress", "查询工作通知消息的发送进度"),
+        /**
+         * @see #getSendResult(Long, Long)
+         */
+        GET_SEND_RESULT("/topapi/message/corpconversation/getsendresult", "查询工作通知消息的发送结果"),
+        /**
+         * @see #recall(Long, Long)
+         */
+        RECALL("/topapi/message/corpconversation/recall", "工作通知消息撤回"),
+
+        ;
+
+        private final String path;
+
+        private final String sketch;
+
+    }
 }

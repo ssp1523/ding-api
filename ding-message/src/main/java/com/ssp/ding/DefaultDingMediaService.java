@@ -18,6 +18,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+import static com.ssp.ding.DingMediaService.Api.UPLOAD;
+
 /**
  * 文件上传实现
  *
@@ -27,7 +29,7 @@ import java.time.ZoneId;
 public class DefaultDingMediaService extends BaseDingService implements DingMediaService {
 
 
-    protected DefaultDingMediaService(DingClient dingClient) {
+    public DefaultDingMediaService(DingClient dingClient) {
         super(dingClient, null);
     }
 
@@ -45,7 +47,7 @@ public class DefaultDingMediaService extends BaseDingService implements DingMedi
         OapiMediaUploadRequest request = new OapiMediaUploadRequest();
         request.setType(mediaType.getType());
         request.setMedia(fileItem);
-        OapiMediaUploadResponse response = execute("/media/upload", request);
+        OapiMediaUploadResponse response = execute(UPLOAD, request);
         LocalDateTime createdAt =
                 LocalDateTime.ofInstant(
                         Instant.ofEpochMilli(ObjectUtil.defaultIfNull(response.getCreatedAt(), System.currentTimeMillis())),

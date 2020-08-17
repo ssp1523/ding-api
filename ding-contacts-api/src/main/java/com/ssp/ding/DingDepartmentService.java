@@ -5,6 +5,8 @@ import com.ssp.ding.request.DingDepartmentCreateRequest;
 import com.ssp.ding.request.DingDepartmentUpdateRequest;
 import com.ssp.ding.response.DingDepartmentDetailResponse;
 import com.ssp.ding.response.DingDepartmentResponse;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Locale;
@@ -138,5 +140,58 @@ public interface DingDepartmentService {
      */
     List<List<Long>> listParentDepts(String userId) throws DingException;
 
+
+    /**
+     * 接口api
+     */
+    @Getter
+    @RequiredArgsConstructor
+    enum Api implements DingApi {
+        /**
+         * @see #create(DingDepartmentCreateRequest)
+         */
+        CREATE("/department/create", "创建部门"),
+        /**
+         * @see #update(Long, DingDepartmentUpdateRequest)
+         * @see #update(Long, DingDepartmentUpdateRequest, Locale)
+         */
+        UPDATE("/department/update", "更新部门"),
+        /**
+         * @see #delete(Long)
+         */
+        DELETE("/department/delete", "删除部门"),
+        /**
+         * @see #get(Long)
+         */
+        GET("/department/get", "获取部门详情"),
+
+        /**
+         * @see #listIds(Long)
+         */
+        LIST_IDS("/department/list_ids", "获取子部门ID列表"),
+
+        /**
+         * @see #list(Long, Boolean, Locale)
+         */
+        LIST("/department/list", "获取部门列表"),
+
+        /**
+         * @see #listParentDeptsByDept(Long)
+         */
+        LIST_PARENT_DEPTS_BY_DEPT("/department/list_parent_depts_by_dept", "获取部门部门详情"),
+
+        /**
+         * @see #listParentDepts(String)
+         */
+        LIST_PARENT_DEPTS("/department/list_parent_depts", "获取管理员列表"),
+
+
+        ;
+
+        private final String path;
+
+        private final String sketch;
+
+    }
 
 }

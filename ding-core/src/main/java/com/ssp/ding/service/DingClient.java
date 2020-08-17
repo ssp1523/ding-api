@@ -1,5 +1,6 @@
 package com.ssp.ding.service;
 
+import com.ssp.ding.DingApi;
 import com.taobao.api.TaobaoRequest;
 import com.taobao.api.TaobaoResponse;
 
@@ -11,5 +12,5 @@ import com.taobao.api.TaobaoResponse;
  */
 public interface DingClient {
 
-    <T extends TaobaoResponse> T execute(String path, TaobaoRequest<T> request);
+    <T extends TaobaoResponse> T execute(DingApi dingApi, TaobaoRequest<T> request);
 }

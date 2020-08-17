@@ -4,6 +4,8 @@ import com.ssp.ding.exception.DingException;
 import com.ssp.ding.request.DingChatCreateRequest;
 import com.ssp.ding.request.DingCursorPageable;
 import com.ssp.ding.response.DingCursorPage;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -31,7 +33,7 @@ public interface DingMessageService {
      * @return 加密的消息id, 如果发送媒体类型消息请先上传文件 {@link #mediaService()}
      * @see DingMediaService
      */
-    DingMessageSender<String> sendChat(String chatId);
+    DingMessageSender<String> send(String chatId);
 
     /**
      * 查询群消息已读人员列表
@@ -75,4 +77,33 @@ public interface DingMessageService {
      */
     DingMediaService mediaService();
 
+
+    /**
+     * 接口api
+     */
+    @Getter
+    @RequiredArgsConstructor
+    enum Api implements DingApi {
+
+        /**
+         * @see #send(String)
+         */
+        SEND("/chat/send", "发送群消息"),
+        /**
+         * @see #getReadList(DingCursorPageable, String)
+         * @see #getReadList(String)
+         */
+        GET_READ_LIST("/chat/getReadList", "查询群消息已读人员列表"),
+        /**
+         * @see #sendToConversation(String, String)
+         */
+        SEND_TO_CONVERSATION("/message/send_to_conversation", "发送普通消息"),
+
+        ;
+
+        private final String path;
+
+        private final String sketch;
+
+    }
 }

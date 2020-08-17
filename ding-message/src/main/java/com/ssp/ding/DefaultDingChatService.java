@@ -17,6 +17,8 @@ import org.springframework.core.convert.ConversionService;
 
 import java.util.List;
 
+import static com.ssp.ding.DingChatService.Api.*;
+
 /**
  * 群会话管理 钉钉客户端实现
  *
@@ -24,6 +26,7 @@ import java.util.List;
  * @date: Create by in 4:34 下午 2020/6/24
  */
 public class DefaultDingChatService extends BaseDingService implements DingChatService {
+
 
     public DefaultDingChatService(DingClient dingClient, ConversionService conversionService) {
         super(dingClient, conversionService);
@@ -34,7 +37,7 @@ public class DefaultDingChatService extends BaseDingService implements DingChatS
 
         OapiChatCreateRequest request = convert(req, OapiChatCreateRequest.class);
 
-        OapiChatCreateResponse response = execute("/chat/create", request);
+        OapiChatCreateResponse response = execute(CREATE, request);
         return DingChatCreateResponse.builder()
                 .chatId(response.getChatid())
                 .conversationTag(response.getConversationTag())
@@ -44,14 +47,15 @@ public class DefaultDingChatService extends BaseDingService implements DingChatS
     @Override
     public void update(String chatId, DingChatUpdateRequest req) {
         OapiChatUpdateRequest request = convert(req, OapiChatUpdateRequest.class);
-        execute("/chat/update", request);
+        request.setChatid(chatId);
+        execute(UPDATE, request);
     }
 
     @Override
     public DingChatResponse get(String chatId) {
         OapiChatGetRequest request = new OapiChatGetRequest();
         request.setChatid(chatId);
-        OapiChatGetResponse response = execute("/chat/get", request);
+        OapiChatGetResponse response = execute(GET, request);
         return convert(response, DingChatResponse.class);
     }
 
@@ -61,6 +65,6 @@ public class DefaultDingChatService extends BaseDingService implements DingChatS
         req.setChatid(chatId);
         req.setUserids(String.join(DingConf.COMMA, userIds));
         req.setRole(Long.valueOf(role));
-        execute("/chat/subadmin/update", req);
+        execute(SUB_ADMIN_UPDATE, req);
     }
 }

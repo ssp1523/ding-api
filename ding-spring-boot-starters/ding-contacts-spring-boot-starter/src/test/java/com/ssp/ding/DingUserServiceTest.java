@@ -3,6 +3,7 @@ package com.ssp.ding;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssp.ding.enumeration.OnlyActive;
+import com.ssp.ding.request.DingPageable;
 import com.ssp.ding.request.DingUserRequest;
 import com.ssp.ding.response.*;
 import org.junit.Test;
@@ -21,7 +22,9 @@ public class DingUserServiceTest extends BaseTest {
     @Autowired
     DingUserService dingUserService;
 
-    ObjectMapper objectMapper = new ObjectMapper();
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Test
     public void create() {
@@ -31,6 +34,7 @@ public class DingUserServiceTest extends BaseTest {
                         .department(Collections.singletonList(150239177L))
                         .name("张无忌")
                         .mobile("13388996655")
+                        .email("123@qq.com")
                         .build()
         );
         System.out.println(userId);
@@ -53,7 +57,7 @@ public class DingUserServiceTest extends BaseTest {
 
     @Test
     public void getUser() throws JsonProcessingException {
-        DingUserResponse response = dingUserService.getUser("manager1402");
+        DingUserResponse response = dingUserService.get("manager3312");
         System.out.println(objectMapper.writeValueAsString(response));
 
     }
@@ -66,14 +70,19 @@ public class DingUserServiceTest extends BaseTest {
 
     @Test
     public void simpleList() throws JsonProcessingException {
-        DingPage<DingUserSimpleResponse> dingUserSimpleResponses = dingUserService.simpleList(82233094L);
+        DingPage<DingUserSimpleResponse> dingUserSimpleResponses = dingUserService.simpleList(150239177L);
         System.out.println(objectMapper.writeValueAsString(dingUserSimpleResponses));
 
     }
 
     @Test
     public void listByPage() throws JsonProcessingException {
-        DingPage<DingUserResponse> dingUserResponses = dingUserService.listByPage(82233094L);
+        DingPage<DingUserListResponse> dingUserResponses =
+                dingUserService.listByPage( DingPageable.builder()
+                .size(2)
+                .offset(2)
+                .build(),
+                150239177L);
         System.out.println(objectMapper.writeValueAsString(dingUserResponses));
 
     }
@@ -87,14 +96,14 @@ public class DingUserServiceTest extends BaseTest {
 
     @Test
     public void getAdminScope() {
-        List<Long> list = dingUserService.getAdminScope("manager1402");
+        List<Long> list = dingUserService.getAdminScope("manager3312");
         System.out.println(list);
     }
 
 
     @Test
     public void getUserIdByUnionId() {
-        UserIdResponse userIdResponse = dingUserService.getUserIdByUnionId("KtRAiPhAeK4f6tEEbNOLjuwiEiE");
+        UserIdResponse userIdResponse = dingUserService.getUserIdByUnionId("FlB5SPbb5uGgbhgbz5ChVgiEiE");
         System.out.println(userIdResponse.getContactType() + "," + userIdResponse.getUserId());
     }
 
@@ -112,7 +121,7 @@ public class DingUserServiceTest extends BaseTest {
 
     @Test
     public void getInactive() {
-        DingPage<String> page = dingUserService.getInactive(LocalDate.now().minusDays(1));
+        DingPage<String> page = dingUserService.getInactive(LocalDate.now().minusDays(10));
         System.out.println(page.getContent());
     }
 }

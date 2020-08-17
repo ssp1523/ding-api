@@ -4,6 +4,9 @@ import com.ssp.ding.request.DingPageable;
 import com.ssp.ding.request.DingSaveProcessRequest;
 import com.ssp.ding.response.DingCursorPage;
 import com.ssp.ding.response.DingProcessTopResponse;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import javax.annotation.Nullable;
 
 /**
@@ -130,4 +133,50 @@ public interface DingProcessService {
     void delete(@Nullable Long agentId, String processCode, @Nullable Boolean cleanRunningTask);
 
 
+    /**
+     * 接口枚举
+     *
+     * @author: sunshaoping
+     * @date: Create by in 4:20 下午 2020/8/13
+     */
+    @Getter
+    @RequiredArgsConstructor
+    enum Api implements DingApi {
+
+
+        /**
+         * @see #update(String, DingSaveProcessRequest)
+         * @see #create(DingSaveProcessRequest)
+         */
+        SAVE("/topapi/process/save", "创建/更新模板"),
+
+        /**
+         * @see #getByName(String)
+         */
+        GET_BY_NAME("/topapi/process/get_by_name", "获取模板code"),
+
+        /**
+         * @see #getTodoNum(String)
+         */
+        GET_TODO_NUM("/topapi/process/gettodonum", "获取用户待审批数量"),
+
+        /**
+         * @see #listByUserId(DingPageable, String)
+         */
+        LIST_BY_USER_ID("/topapi/process/listbyuserid", "获取用户可见的审批模板"),
+
+        /**
+         * @see #delete(Long, String, Boolean)
+         * @see #delete(java.lang.String)
+         */
+        DELETE("/topapi/process/delete", "删除模板"),
+
+        ;
+
+        private final String path;
+
+        private final String sketch;
+
+
+    }
 }

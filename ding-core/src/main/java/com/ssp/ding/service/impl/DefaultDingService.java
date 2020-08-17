@@ -11,20 +11,23 @@ import com.dingtalk.api.response.OapiGettokenResponse;
 import com.dingtalk.api.response.OapiSnsGetuserinfoBycodeResponse;
 import com.dingtalk.api.response.OapiUserGetuserinfoResponse;
 import com.ssp.ding.DingConfigStorage;
+import com.ssp.ding.DingApi;
 import com.ssp.ding.DingService;
-import com.ssp.ding.conf.DingConf;
 import com.ssp.ding.exception.DingException;
 import com.ssp.ding.response.DingSnsUserInfoResponse;
 import com.ssp.ding.response.DingUserInfoResponse;
 import com.ssp.ding.service.DingClient;
+import com.ssp.ding.service.DingLogger;
 import com.ssp.ding.service.DingTalkClientFactory;
+import com.ssp.ding.utils.DingExceptionUtils;
 import com.taobao.api.ApiException;
 import com.taobao.api.TaobaoRequest;
 import com.taobao.api.TaobaoResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
+
+import static com.ssp.ding.DingService.Api.*;
 
 /**
  * 钉钉服务默认实现
@@ -32,13 +35,14 @@ import java.time.Duration;
  * @author: sunshaoping
  * @date: Create by in 2:11 下午 2020/6/8
  */
-@Slf4j
 @RequiredArgsConstructor
-public class DefaultDingService implements DingService, DingConf, DingClient {
+public class DefaultDingService implements DingService, DingClient {
 
     private final DingConfigStorage dingConfigStorage;
 
     private final DingTalkClientFactory dingTalkClientFactory;
+
+    private final DingLogger logger;
 
     @Override
     public String getAccessToken() {
@@ -57,21 +61,18 @@ public class DefaultDingService implements DingService, DingConf, DingClient {
             request.setAppkey(dingConfigStorage.getAppKey());
             request.setAppsecret(dingConfigStorage.getAppSecret());
             try {
-                log.info("开始获取钉钉token");
+                logger.request(GET_TOKEN, request);
                 OapiGettokenResponse response = dingTalkClientFactory.getClient(GET_TOKEN)
                         .execute(request);
-                if (!response.isSuccess()) {
-                    log.error("钉钉接口失败,错误码:{},错误原因:{},错误子码:{},错误子码原因:{}",
-                            response.getErrorCode(), response.getMsg(), response.getSubCode(), response.getSubMsg());
-                    throw new DingException(response.getErrorCode(), response.getMsg());
+                logger.response(GET_TOKEN, response);
+                if (response.isSuccess()) {
+                    dingConfigStorage.updateAccessToken(response.getAccessToken(), Duration.ofSeconds(response.getExpiresIn()));
+                    return response.getAccessToken();
                 }
-                dingConfigStorage.updateAccessToken(response.getAccessToken(), Duration.ofSeconds(response.getExpiresIn()));
-                log.info("获取钉钉token成功");
-                return response.getAccessToken();
+                throw DingExceptionUtils.of(response);
             } catch (ApiException e) {
-                log.error("获取钉钉token失败:{},错误码:{},错误原因:{},错误子码:{},错误子码原因:{}",
-                        e.getMessage(), e.getErrCode(), e.getErrMsg(), e.getSubErrCode(), e.getSubErrMsg());
-                throw new DingException(e.getErrCode(), e.getErrMsg() + "," + e.getMessage(), e);
+                logger.exception(GET_TOKEN, e);
+                throw DingExceptionUtils.of(e);
             }
         });
 
@@ -107,7 +108,7 @@ public class DefaultDingService implements DingService, DingConf, DingClient {
 
         OapiUserGetuserinfoRequest request = new OapiUserGetuserinfoRequest();
         request.setCode(code);
-        OapiUserGetuserinfoResponse response = execute("/user/getuserinfo", request);
+        OapiUserGetuserinfoResponse response = execute(GET_USER_INFO, request);
         String userId = response.getUserid();
 
         return DingUserInfoResponse.builder()
@@ -122,12 +123,9 @@ public class DefaultDingService implements DingService, DingConf, DingClient {
         try {
             OapiSnsGetuserinfoBycodeRequest request = new OapiSnsGetuserinfoBycodeRequest();
             request.setTmpAuthCode(tmpAuthCode);
-            log.info("钉钉请求信息,{},{},{}", request.getTopHttpMethod(), "/user/getuserinfo", request.getTextParams());
-
-            OapiSnsGetuserinfoBycodeResponse response =
-                    dingTalkClientFactory.getClient("/user/getuserinfo")
-                            .execute(request, appId, appSecret);
-            log.info("钉钉响应信息:{}", response.getBody());
+            logger.request(GET_USER_INFO, request);
+            OapiSnsGetuserinfoBycodeResponse response = dingTalkClientFactory.getClient(GET_USER_INFO).execute(request, appId, appSecret);
+            logger.response(GET_USER_INFO, response);
             if (response.isSuccess()) {
                 OapiSnsGetuserinfoBycodeResponse.UserInfo userInfo = response.getUserInfo();
                 return DingSnsUserInfoResponse.builder()
@@ -136,34 +134,27 @@ public class DefaultDingService implements DingService, DingConf, DingClient {
                         .unionId(userInfo.getUnionid())
                         .build();
             }
-            log.error("钉钉接口失败,错误码:{},错误原因:{},错误子码:{},错误子码原因:{}",
-                    response.getErrorCode(), response.getMsg(), response.getSubCode(), response.getSubMsg());
-            throw new DingException(response.getErrorCode(), response.getMsg());
+            throw DingExceptionUtils.of(response);
         } catch (ApiException e) {
-            log.error("钉钉接口失败:{},错误码:{},错误原因:{},错误子码:{},错误子码原因:{}",
-                    e.getMessage(), e.getErrCode(), e.getErrMsg(), e.getSubErrCode(), e.getSubErrMsg());
-            throw new DingException(e.getErrCode(), e.getErrMsg() + "," + e.getMessage(), e);
+            throw DingExceptionUtils.of(e);
         }
 
     }
 
-    public <T extends TaobaoResponse> T execute(String path, TaobaoRequest<T> request) throws DingException {
-        DingTalkClient client = dingTalkClientFactory.getClient(path);
+    public <T extends TaobaoResponse> T execute(DingApi dingApi, TaobaoRequest<T> request) throws DingException {
+        DingTalkClient client = dingTalkClientFactory.getClient(dingApi);
 
         try {
-            log.info("钉钉请求信息,{},{},{}", request.getTopHttpMethod(), path, request.getTextParams());
+            logger.request(dingApi, request);
             T response = client.execute(request, getAccessToken());
-            log.info("钉钉响应信息:{}", response.getBody());
+            logger.response(dingApi, response);
             if (response.isSuccess()) {
                 return response;
             }
-            log.error("钉钉接口失败,错误码:{},错误原因:{},错误子码:{},错误子码原因:{}",
-                    response.getErrorCode(), response.getMsg(), response.getSubCode(), response.getSubMsg());
-            throw new DingException(response.getErrorCode(), response.getMsg());
+            throw DingExceptionUtils.of(response);
         } catch (ApiException e) {
-            log.error("钉钉接口失败:{},错误码:{},错误原因:{},错误子码:{},错误子码原因:{}",
-                    e.getMessage(), e.getErrCode(), e.getErrMsg(), e.getSubErrCode(), e.getSubErrMsg());
-            throw new DingException(e.getErrCode(), e.getErrMsg() + "," + e.getMessage(), e);
+            logger.exception(dingApi, e);
+            throw DingExceptionUtils.of(e);
 
         }
     }

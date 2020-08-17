@@ -31,9 +31,9 @@ public class OapiUserCreateRequestConverter implements Converter<DingUserRequest
 
     @Override
     public OapiUserCreateRequest convert(DingUserRequest dingUserRequest) {
-        Assert.notBlank(dingUserRequest.getName(), "name必输");
-        Assert.notEmpty(dingUserRequest.getDepartment(), "departments必输");
-        Assert.notEmpty(dingUserRequest.getMobile(), "mobile必输");
+        //Assert.notBlank(dingUserRequest.getName(), "name必输");
+        //Assert.notEmpty(dingUserRequest.getDepartment(), "departments必输");
+        //Assert.notEmpty(dingUserRequest.getMobile(), "mobile必输");
         OapiUserCreateRequest request = new OapiUserCreateRequest();
 
         try {

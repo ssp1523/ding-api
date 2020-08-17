@@ -3,6 +3,8 @@ package com.ssp.ding;
 
 import com.ssp.ding.response.DingSnsUserInfoResponse;
 import com.ssp.ding.response.DingUserInfoResponse;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 钉钉服务
@@ -68,4 +70,39 @@ public interface DingService {
      */
     DingSnsUserInfoResponse getUserInfoByCode(String tmpAuthCode, String appId, String appSecret);
 
+    /**
+     * 核心接口
+     *
+     * @author: sunshaoping
+     * @date: Create by in 4:20 下午 2020/8/13
+     */
+
+    @Getter
+    @RequiredArgsConstructor
+    enum Api implements DingApi {
+
+
+        /**
+         * @see DingService#getAccessToken()
+         */
+        GET_TOKEN("gettoken", "获取Token"),
+
+        /**
+         * @see DingService#getJsApiTicket()
+         */
+        JS_API_TICKET("get_jsapi_ticket", "获取JsApiTicket"),
+
+        /**
+         * @see DingService#getUserInfo(String)
+         */
+        GET_USER_INFO("/user/getuserinfo", "获取JsApiTicket"),
+
+        ;
+
+        private final String path;
+
+        private final String sketch;
+
+
+    }
 }

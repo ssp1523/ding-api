@@ -1,5 +1,6 @@
 package com.ssp.ding.response;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -9,6 +10,7 @@ import lombok.Data;
  * @date: Create by in 11:36 上午 2020/6/11
  */
 @Data
+@Builder
 public class DingRoleByGroupResponse {
     /**
      * 角色id

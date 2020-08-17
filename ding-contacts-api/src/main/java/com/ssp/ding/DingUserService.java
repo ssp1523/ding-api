@@ -5,6 +5,8 @@ import com.ssp.ding.exception.DingException;
 import com.ssp.ding.request.DingPageable;
 import com.ssp.ding.request.DingUserRequest;
 import com.ssp.ding.response.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,6 +23,8 @@ public interface DingUserService {
 
     /**
      * 创建用户
+     * <p>
+     * 如果用户手机号存在,返回userId
      * <p>
      * 请求地址：https://oapi.dingtalk.com/user/create?access_token=ACCESS_TOKEN
      * <p>
@@ -69,7 +73,7 @@ public interface DingUserService {
      *
      * @param userId 员工id
      */
-    DingUserResponse getUser(String userId) throws DingException;
+    DingUserResponse get(String userId) throws DingException;
 
     /**
      * 获取部门用户userid列表
@@ -109,16 +113,16 @@ public interface DingUserService {
      * 请求地址：https://oapi.dingtalk.com/user/listbypage?access_token=ACCESS_TOKEN&department_id=1
      * <p>
      * 接口文档:https://ding-doc.dingtalk.com/doc#/serverapi2/ege851/7d2092e8
-     *
-     * @param pageable 分页
+     *  @param pageable 分页
      * @param deptId   获取的部门id，1表示根部门
+     * @return
      */
-    DingPage<DingUserResponse> listByPage(DingPageable pageable, Long deptId) throws DingException;
+    DingPage<DingUserListResponse> listByPage(DingPageable pageable, Long deptId) throws DingException;
 
     /**
      * @see #listByPage(DingPageable, Long)
      */
-    default DingPage<DingUserResponse> listByPage(Long deptId) throws DingException {
+    default DingPage<DingUserListResponse> listByPage(Long deptId) throws DingException {
         return listByPage(DingPageable.DEFAULT_20, deptId);
     }
 
@@ -137,7 +141,7 @@ public interface DingUserService {
      * <p>
      * 请求地址：https://oapi.dingtalk.com/topapi/user/get_admin_scope?access_token=ACCESS_TOKEN
      * <p>
-     * 接口文档地址:https://ding-doc.dingtalk.com/doc#/serverapi2/ege851/22fb487e
+     * 接口文档地址:https://ding-doc.dingtalk.com/doc#/serverapi2/ege851/xjCDQ
      *
      * @param userId 员工id
      * @return 可管理的部门id列表
@@ -203,5 +207,84 @@ public interface DingUserService {
      */
     default DingPage<String> getInactive(LocalDate queryDate) {
         return getInactive(DingPageable.DEFAULT_20, queryDate);
+    }
+
+
+    /**
+     * 接口api
+     */
+    @Getter
+    @RequiredArgsConstructor
+    enum Api implements DingApi {
+
+
+        /**
+         * @see #create(DingUserRequest)
+         */
+        CREATE("/user/create", "创建用户"),
+        /**
+         * @see #update(String, DingUserRequest)
+         * @see #update(String, DingUserRequest, Locale)
+         */
+        UPDATE("/user/update", "更新用户"),
+        /**
+         * @see #delete(String)
+         */
+        DELETE("/user/delete", "删除用户"),
+        /**
+         * @see #get(String)
+         */
+        GET("/user/get", "获取用户详情"),
+        /**
+         * @see #getDeptMember(Long)
+         */
+        GET_DEPT_MEMBER("/user/getDeptMember", "获取部门用户userId 列表"),
+
+        /**
+         * @see #simpleList(Long)
+         * @see #simpleList(DingPageable, Long)
+         */
+        SIMPLE_LIST("/user/simplelist", "获取部门用户"),
+
+        /**
+         * @see #listByPage(Long)
+         * @see #listByPage(DingPageable, Long)
+         */
+        LIST_BY_PAGE("/user/listbypage", "获取部门用户详情"),
+
+        /**
+         * @see #getAdmin()
+         */
+        GET_ADMIN("/user/get_admin", "获取管理员列表"),
+
+        /**
+         * @see #getAdminScope(String)
+         */
+        GET_ADMIN_SCOPE("/topapi/user/get_admin_scope", "获取管理员通讯录权限范围"),
+
+        /**
+         * @see #getUserIdByUnionId(String)
+         */
+        GET_USER_ID_BY_UNION_ID("/user/getUseridByUnionid", "根据unionid获取userid"),
+        /**
+         * @see #getByMobile(String)
+         */
+        GET_BY_MOBILE("/user/get_by_mobile", "根据手机号获取userid"),
+        /**
+         * @see #getOrgUserCount(OnlyActive)
+         */
+        GET_ORG_USER_COUNT("/user/get_org_user_count", "获取企业员工人数"),
+        /**
+         * @see #getInactive(LocalDate)
+         * @see #getInactive(DingPageable, LocalDate)
+         */
+        GET_INACTIVE_USER("/topapi/inactive/user/get", "未登录钉钉的员工ID列表"),
+
+        ;
+
+        private final String path;
+
+        private final String sketch;
+
     }
 }

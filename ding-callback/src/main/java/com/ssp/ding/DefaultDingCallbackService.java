@@ -64,7 +64,9 @@ public class DefaultDingCallbackService implements DingCallbackService {
 
     @Override
     public String decrypt(String signature, String timestamp, String nonce, String encryptJson) {
-        log.info("钉钉回调数据,signature:{}, timestamp:{},nonce:{},json:{}", signature, timestamp, nonce, encryptJson);
+        if (log.isDebugEnabled()) {
+            log.debug("钉钉回调数据,signature:{}, timestamp:{},nonce:{},json:{}", signature, timestamp, nonce, encryptJson);
+        }
         try {
 
             JsonNode jsonNode = objectMapper.readTree(encryptJson);

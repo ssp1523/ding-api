@@ -3,6 +3,8 @@ package com.ssp.ding;
 import com.ssp.ding.exception.DingException;
 import com.ssp.ding.request.ProcessInstanceRequest;
 import com.ssp.ding.request.ProcessInstanceUpdateRequest;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -53,4 +55,18 @@ public interface DingProcessWorkRecordService {
     void batchUpdate(Long agentId, List<ProcessInstanceUpdateRequest> instances) throws DingException;
 
 
+    /**
+     * 接口api
+     */
+    @Getter
+    @RequiredArgsConstructor
+    enum Api implements DingApi {
+
+        ;
+
+        private final String path;
+
+        private final String sketch;
+
+    }
 }

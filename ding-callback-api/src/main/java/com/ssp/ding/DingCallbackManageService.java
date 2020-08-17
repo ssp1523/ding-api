@@ -1,13 +1,11 @@
 package com.ssp.ding;
 
-import com.ssp.ding.DingCallback;
-import com.ssp.ding.handler.CallbackEvent;
-import com.ssp.ding.handler.DingCallbackHandler;
 import com.ssp.ding.response.DingCallBackFailedResponse;
 import com.ssp.ding.response.DingPage;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 钉钉回调管理
@@ -32,7 +30,7 @@ public interface DingCallbackManageService {
     void registerCallBack(DingCallback request);
 
     /**
-     * 注册业务事件回调接口
+     * 注册业务事件回调接口,批量
      *
      * @param callBackTag 事件类型
      */
@@ -86,5 +84,43 @@ public interface DingCallbackManageService {
      */
     DingPage<DingCallBackFailedResponse> getCallBackFailedResult();
 
+
+    /**
+     * 接口api
+     */
+    @Getter
+    @RequiredArgsConstructor
+    enum Api implements DingApi {
+
+        /**
+         * @see #registerCallBack(DingCallback)
+         * @see #registerCallBack(List)
+         */
+        REGISTER_CALL_BACK("/call_back/register_call_back", "注册业务事件回调接口"),
+        /**
+         * @see #getCallBack()
+         */
+        GET_CALL_BACK("/call_back/get_call_back", "查询事件回调接口"),
+        /**
+         * @see #updateCallBack(DingCallback)
+         * @see #updateCallBack(List)
+         */
+        UPDATE_CALL_BACK("/call_back/update_call_back", "更新事件回调接口"),
+        /**
+         * @see #deleteCallBack()
+         */
+        DELETE_CALL_BACK("/call_back/delete_call_back", "删除事件回调接口"),
+        /**
+         * @see #getCallBackFailedResult()
+         */
+        GET_CALL_BACK_FAILED_RESULT("/call_back/get_call_back_failed_result", "获取回调失败的结果"),
+
+        ;
+
+        private final String path;
+
+        private final String sketch;
+
+    }
 
 }

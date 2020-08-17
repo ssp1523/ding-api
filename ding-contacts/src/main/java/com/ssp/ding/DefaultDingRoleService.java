@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import com.dingtalk.api.request.*;
 import com.dingtalk.api.response.*;
-import com.ssp.ding.conf.DingRoleConf;
+import com.ssp.ding.exception.DingException;
 import com.ssp.ding.request.DingPageable;
 import com.ssp.ding.response.DingPage;
 import com.ssp.ding.response.DingRoleGroupResponse;
@@ -15,8 +15,10 @@ import com.ssp.ding.service.DingClient;
 import org.springframework.core.convert.ConversionService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static com.ssp.ding.DingRoleService.Api.*;
 import static com.ssp.ding.conf.DingConf.COMMA;
 import static com.ssp.ding.conf.DingConf.VERTICAL_BAR;
 
@@ -27,7 +29,7 @@ import static com.ssp.ding.conf.DingConf.VERTICAL_BAR;
  * @author: sunshaoping
  * @date: Create by in 4:47 下午 2020/6/9
  */
-public class DefaultDingRoleService extends BaseDingService implements DingRoleService, DingRoleConf {
+public class DefaultDingRoleService extends BaseDingService implements DingRoleService {
 
     public DefaultDingRoleService(DingClient dingClient, ConversionService conversionService) {
         super(dingClient, conversionService);
@@ -61,7 +63,13 @@ public class DefaultDingRoleService extends BaseDingService implements DingRoleS
     public DingRoleResponse getRole(Long roleId) {
         OapiRoleGetroleRequest req = new OapiRoleGetroleRequest();
         req.setRoleId(roleId);
-        return execute(GET_ROLE, req, DingRoleResponse.class);
+        OapiRoleGetroleResponse response = execute(GET_ROLE, req);
+        OapiRoleGetroleResponse.OpenRole role = response.getRole();
+        if (Objects.isNull(role)) {
+            throw new DingException("未找到角色 roleId=" + roleId, (Throwable) null);
+        }
+        return convert(role, DingRoleResponse.class);
+
     }
 
     @Override
@@ -125,7 +133,11 @@ public class DefaultDingRoleService extends BaseDingService implements DingRoleS
 
         OapiRoleGetrolegroupResponse response = execute(ROLE_GET_ROLE_GROUP, request);
 
-        return convert(response, DingRoleGroupResponse.class);
+        DingRoleGroupResponse roleGroupResponse = convert(response.getRoleGroup(), DingRoleGroupResponse.class);
+        if (Objects.isNull(roleGroupResponse.getGroupId())) {
+            roleGroupResponse.setGroupId(groupId);
+        }
+        return roleGroupResponse;
     }
 
     @Override

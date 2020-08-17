@@ -8,11 +8,21 @@ package com.ssp.ding.conf;
  */
 public interface DingConf {
 
-    String GET_TOKEN = "gettoken";
-
-    String JS_API_TICKET = "get_jsapi_ticket";
-
     String VERTICAL_BAR = "|";
 
     String COMMA = ",";
+
+    String DING_CONVERSION_SERVICE = "dingConversionService";
+    String DING_CORE_BUILDER = "dingCoreBuilder";
+
+    String DING_LOGGER = "dingLogger";
+
+    String DING_CONFIG_STORAGE = "dingConfigStorage";
+    String DING_TALK_CLIENT_FACTORY = "dingTalkClientFactory";
+
+
+    String DING_OBJECT_MAPPER = "dingObjectMapper";
+
+    String DING_SERVICE = "dingService";
+
 }

@@ -4,6 +4,8 @@ import com.ssp.ding.request.DingChatCreateRequest;
 import com.ssp.ding.request.DingChatUpdateRequest;
 import com.ssp.ding.response.DingChatCreateResponse;
 import com.ssp.ding.response.DingChatResponse;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -29,7 +31,7 @@ public interface DingChatService {
      * <p>
      * 请求地址：https://oapi.dingtalk.com/chat/update?access_token=ACCESS_TOKEN
      * <p>
-     * 接口文档:https://ding-doc.dingtalk.com/doc#/serverapi2/isu6nk/be1caa34
+     * 接口文档:https://ding-doc.dingtalk.com/doc#/serverapi2/lewq17
      *
      * @param chatId  群会话的id
      * @param request 更新数据
@@ -59,9 +61,43 @@ public interface DingChatService {
      * 请求地址：https://oapi.dingtalk.com/topapi/chat/subadmin/update?access_token=ACCESS_TOKEN
      * <p>
      * 接口文档:https://ding-doc.dingtalk.com/doc#/serverapi2/leqbe8
-     *  @param chatId  群会话id
+     *
+     * @param chatId  群会话id
      * @param userIds 群成员userid列表
      * @param role    2是添加为管理员，3是删除该管理员
      */
     void subAdminUpdate(String chatId, List<String> userIds, Integer role);
+
+
+    /**
+     * 接口api
+     */
+    @Getter
+    @RequiredArgsConstructor
+    enum Api implements DingApi {
+
+        /**
+         * @see #create(DingChatCreateRequest)
+         */
+        CREATE("/chat/create", "创建会话(群)"),
+        /**
+         * @see #update(String, DingChatUpdateRequest)
+         */
+        UPDATE("/chat/update", "修改会话(群)"),
+        /**
+         * @see #get(String)
+         */
+        GET("/chat/get", "获取会话"),
+        /**
+         * @see #subAdminUpdate(String, List, Integer)
+         */
+        SUB_ADMIN_UPDATE("/chat/subadmin/update", "设置群管理员"),
+
+        ;
+
+        private final String path;
+
+        private final String sketch;
+
+    }
 }

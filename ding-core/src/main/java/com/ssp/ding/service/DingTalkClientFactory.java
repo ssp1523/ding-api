@@ -1,6 +1,7 @@
 package com.ssp.ding.service;
 
 import com.dingtalk.api.DingTalkClient;
+import com.ssp.ding.DingApi;
 
 /**
  * 钉钉客户端工厂类
@@ -10,5 +11,5 @@ import com.dingtalk.api.DingTalkClient;
  */
 public interface DingTalkClientFactory {
 
-    DingTalkClient getClient(String path);
+    DingTalkClient getClient(DingApi dingApi);
 }

@@ -1,6 +1,5 @@
 package com.ssp.ding;
 
-import com.ssp.ding.api.*;
 import com.ssp.ding.enumeration.MediaType;
 import com.ssp.ding.exception.DingException;
 import com.ssp.ding.response.DingMediaResponse;
@@ -29,7 +28,7 @@ public class DefaultDingMediaMessageService implements DingMediaMessageService {
     public DingMediaMessageSender<String> sendAndUpload(String chatId, MediaType mediaType, Resource resource) throws DingException {
         DingMediaResponse response = this.upload(mediaType, resource);
         String mediaId = response.getMediaId();
-        DingMessageSender<String> messageSender = this.sendChat(chatId);
+        DingMessageSender<String> messageSender = this.send(chatId);
         return new DefaultDingMediaMessageSender<>(mediaId, messageSender);
     }
 

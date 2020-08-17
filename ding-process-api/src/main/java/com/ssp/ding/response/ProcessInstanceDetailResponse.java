@@ -3,6 +3,8 @@ package com.ssp.ding.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ssp.ding.ProcessResult;
 import com.ssp.ding.ProcessStatus;
+import lombok.Data;
+import lombok.Value;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.List;
  * @author: sunshaoping
  * @date: Create by in 6:01 下午 2020/6/17
  */
+@Data
 public class ProcessInstanceDetailResponse {
 
 

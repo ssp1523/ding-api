@@ -18,6 +18,8 @@ import org.springframework.core.convert.ConversionService;
 
 import java.util.List;
 
+import static com.ssp.ding.DingMessageService.Api.*;
+
 /**
  * 群消息实现
  *
@@ -30,7 +32,7 @@ public class DefaultDingMessageService extends BaseDingService implements DingMe
 
     private final DingMediaService dingMediaService;
 
-    protected DefaultDingMessageService(DingClient dingClient, ConversionService conversionService, ObjectMapper objectMapper, DingMediaService dingMediaService) {
+    public DefaultDingMessageService(DingClient dingClient, ConversionService conversionService, ObjectMapper objectMapper, DingMediaService dingMediaService) {
         super(dingClient, conversionService);
         this.objectMapper = objectMapper;
         this.dingMediaService = dingMediaService;
@@ -38,13 +40,13 @@ public class DefaultDingMessageService extends BaseDingService implements DingMe
 
 
     @Override
-    public DingMessageSender<String> sendChat(String chatId) {
+    public DingMessageSender<String> send(String chatId) {
         return new JacksonDingMessageSender<>(objectMapper,
                 msg -> {
                     OapiChatSendRequest request = new OapiChatSendRequest();
                     request.setChatid(chatId);
                     request.setMsg(msg);
-                    OapiChatSendResponse response = execute("/chat/send", request);
+                    OapiChatSendResponse response = execute(SEND, request);
                     return response.getMessageId();
                 }).mediaService(dingMediaService);
     }
@@ -56,7 +58,7 @@ public class DefaultDingMessageService extends BaseDingService implements DingMe
         request.setMessageId(messageId);
         request.setCursor(pageable.getCursor());
         request.setSize(Long.valueOf(pageable.getSize()));
-        OapiChatGetReadListResponse response = execute("/chat/getReadList", request);
+        OapiChatGetReadListResponse response = execute(GET_READ_LIST, request);
 
         return new DingCursorPage<>(request.getCursor(), response.getReadUserIdList());
     }
@@ -70,7 +72,7 @@ public class DefaultDingMessageService extends BaseDingService implements DingMe
                     req.setSender(sender);
                     req.setCid(cid);
                     req.setMsg(msg);
-                    OapiMessageSendToConversationResponse response = execute("/message/send_to_conversation", req);
+                    OapiMessageSendToConversationResponse response = execute(SEND_TO_CONVERSATION, req);
                     String receiver = response.getReceiver();
                     return StrUtil.splitTrim(receiver, DingConf.VERTICAL_BAR);
                 }).mediaService(dingMediaService);

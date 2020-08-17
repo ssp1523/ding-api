@@ -1,6 +1,5 @@
 package com.ssp.ding.request;
 
-import com.ssp.ding.FormComponentValue;
 import com.ssp.ding.DingProcessService;
 import lombok.Builder;
 import lombok.Getter;

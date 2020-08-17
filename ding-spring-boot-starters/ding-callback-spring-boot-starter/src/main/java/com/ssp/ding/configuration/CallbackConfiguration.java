@@ -12,6 +12,7 @@ import com.ssp.ding.properties.DingCallbackProperties;
 import com.ssp.ding.service.DingClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -26,6 +27,7 @@ import org.springframework.core.convert.ConversionService;
 import java.util.List;
 import java.util.Objects;
 
+import static com.ssp.ding.configuration.ConverterConfiguration.DING_OBJECT_MAPPER;
 import static com.ssp.ding.properties.DingCallbackProperties.PREFIX;
 
 /**
@@ -39,7 +41,6 @@ import static com.ssp.ding.properties.DingCallbackProperties.PREFIX;
 @Import(DingConfiguration.class)
 @ConditionalOnClass(DingCallbackManageService.class)
 @EnableConfigurationProperties(DingCallbackProperties.class)
-@RequiredArgsConstructor
 @ConditionalOnProperty(prefix = PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class CallbackConfiguration implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -52,6 +53,15 @@ public class CallbackConfiguration implements ApplicationListener<ContextRefresh
     private final DingCallbackProperties dingCallbackProperties;
 
     private List<DingCallbackHandler<? extends CallbackEvent>> dingCallbackHandlers;
+
+    public CallbackConfiguration(DingClient dingClient, ConversionService conversionService,
+                                 @Qualifier(DING_OBJECT_MAPPER) ObjectMapper objectMapper,
+                                 DingCallbackProperties dingCallbackProperties) {
+        this.dingClient = dingClient;
+        this.conversionService = conversionService;
+        this.objectMapper = objectMapper;
+        this.dingCallbackProperties = dingCallbackProperties;
+    }
 
     @Bean
     @ConditionalOnMissingBean

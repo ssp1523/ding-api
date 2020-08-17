@@ -3,6 +3,7 @@ package com.ssp.ding.configuration;
 import cn.hutool.core.collection.CollUtil;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssp.ding.conf.DingConf;
 import com.ssp.ding.convert.ConverterConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -23,9 +24,7 @@ import java.util.Objects;
  * @date: Create by in 10:34 上午 2020/6/9
  */
 @Configuration
-public class ConverterConfiguration implements ApplicationListener<ContextRefreshedEvent> {
-
-    public static final String DING_CONVERSION_SERVICE = "dingConversionService";
+public class ConverterConfiguration implements ApplicationListener<ContextRefreshedEvent>, DingConf {
 
     private List<ConverterConfigurer> converterConfigurers;
 
@@ -39,8 +38,7 @@ public class ConverterConfiguration implements ApplicationListener<ContextRefres
     /**
      * json ObjectMapper
      */
-    @Bean
-    @ConditionalOnMissingBean
+    @Bean(name = DING_OBJECT_MAPPER)
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         //单引号

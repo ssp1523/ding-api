@@ -2,7 +2,8 @@ package com.ssp.ding.service.impl;
 
 import com.dingtalk.api.DefaultDingTalkClient;
 import com.dingtalk.api.DingTalkClient;
-import com.ssp.ding.properties.DingConfig;
+import com.ssp.ding.DingApi;
+import com.ssp.ding.config.DingConfig;
 import com.ssp.ding.service.DingTalkClientFactory;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -24,10 +25,11 @@ public class DefaultDingTalkClientFactory implements DingTalkClientFactory {
     }
 
     @Override
-    public DingTalkClient getClient(String path) {
-        String url = UriComponentsBuilder.fromHttpUrl(dingConfig.getBaseApi())
-                .path(path)
-                .toUriString();
+    public DingTalkClient getClient(DingApi dingApi) {
+        String url =
+                UriComponentsBuilder.fromHttpUrl(dingConfig.getBaseApi())
+                        .path(dingApi.getPath())
+                        .toUriString();
         return dingTalkClientCache.computeIfAbsent(url, this::getClient0);
 
 

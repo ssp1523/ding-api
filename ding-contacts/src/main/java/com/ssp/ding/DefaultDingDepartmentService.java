@@ -5,7 +5,6 @@ import cn.hutool.core.lang.Assert;
 import com.dingtalk.api.request.*;
 import com.dingtalk.api.response.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssp.ding.conf.DingDepartmentConf;
 import com.ssp.ding.conf.TypeReferenceConf;
 import com.ssp.ding.exception.DingException;
 import com.ssp.ding.request.DingDepartmentCreateRequest;
@@ -23,6 +22,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+import static com.ssp.ding.DingDepartmentService.Api.*;
+
 
 /**
  * 钉钉部门管理默认实现
@@ -31,7 +32,7 @@ import java.util.stream.Collectors;
  * @date: Create by in 2:09 下午 2020/6/8
  */
 @Slf4j
-public class DefaultDingDepartmentService extends BaseDingService implements DingDepartmentService, DingDepartmentConf {
+public class DefaultDingDepartmentService extends BaseDingService implements DingDepartmentService {
 
     private final ObjectMapper objectMapper;
 
