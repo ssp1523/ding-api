@@ -43,4 +43,20 @@ public class DingConfig {
      */
     private String baseApi = "https://oapi.dingtalk.com";
 
+    private Redis redis = new Redis();
+
+    @Data
+    public static class Redis {
+
+        private String accessTokenLockPrefix = "ding:access:lock";
+
+        private String accessTokenPrefix = "ding:access:token";
+
+        private String jsApiTicketPrefix = "ding:jat:lock";
+
+        private String JsApiTicketLockPrefix = "ding:jat:token";
+
+    }
+
+
 }

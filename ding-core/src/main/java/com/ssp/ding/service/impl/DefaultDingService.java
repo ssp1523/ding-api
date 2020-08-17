@@ -24,6 +24,8 @@ import com.taobao.api.ApiException;
 import com.taobao.api.TaobaoRequest;
 import com.taobao.api.TaobaoResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
+import org.springframework.core.convert.ConversionService;
 
 import java.time.Duration;
 
@@ -43,6 +45,9 @@ public class DefaultDingService implements DingService, DingClient {
     private final DingTalkClientFactory dingTalkClientFactory;
 
     private final DingLogger logger;
+
+    @Delegate
+    protected final ConversionService conversionService;
 
     @Override
     public String getAccessToken() {
@@ -127,12 +132,7 @@ public class DefaultDingService implements DingService, DingClient {
             OapiSnsGetuserinfoBycodeResponse response = dingTalkClientFactory.getClient(GET_USER_INFO).execute(request, appId, appSecret);
             logger.response(GET_USER_INFO, response);
             if (response.isSuccess()) {
-                OapiSnsGetuserinfoBycodeResponse.UserInfo userInfo = response.getUserInfo();
-                return DingSnsUserInfoResponse.builder()
-                        .nick(userInfo.getNick())
-                        .openId(userInfo.getOpenid())
-                        .unionId(userInfo.getUnionid())
-                        .build();
+                return convert(response.getUserInfo(), DingSnsUserInfoResponse.class);
             }
             throw DingExceptionUtils.of(response);
         } catch (ApiException e) {

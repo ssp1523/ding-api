@@ -16,7 +16,10 @@ public interface DingService {
 
     /**
      * 获取AccessToken
-     * 接口文档:https://ding-doc.dingtalk.com/doc#/serverapi3/hv357q
+     * <p>
+     * 请求地址：请求地址：https://oapi.dingtalk.com/gettoken?appkey=key&appsecret=secret
+     * <p>
+     * 接口文档:https://ding-doc.dingtalk.com/doc#/serverapi2/eev437/1b3959fa
      */
     String getAccessToken();
 
@@ -27,6 +30,9 @@ public interface DingService {
 
     /**
      * 获取JsApiTicket
+     * <p>
+     * 请求地址：https://oapi.dingtalk.com/get_jsapi_ticket?access_token=ACCESS_TOKEN
+     * <p>
      * 接口文档:https://ding-doc.dingtalk.com/doc#/dev/uwa7vs/ce4ef38d
      */
     String getJsApiTicket();

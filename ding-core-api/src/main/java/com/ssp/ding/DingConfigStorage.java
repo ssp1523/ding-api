@@ -37,11 +37,6 @@ public interface DingConfigStorage {
     void updateAccessToken(String accessToken, Duration expiresIn);
 
     /**
-     * access token 过期时间
-     */
-    Duration getAccessExpires();
-
-    /**
      * access token加锁
      *
      * @param supplier 加锁范围
@@ -64,11 +59,6 @@ public interface DingConfigStorage {
      * 更新token
      */
     void updateJsApiTicket(String jsApiTicket, Duration expiresIn);
-
-    /**
-     * js api ticket 过期时间
-     */
-    Duration getJsApiTicketExpires();
 
     /**
      * js api ticket 加锁

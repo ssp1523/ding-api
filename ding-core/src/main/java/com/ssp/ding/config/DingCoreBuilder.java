@@ -73,14 +73,12 @@ public class DingCoreBuilder implements DingConf {
 
     public DingService dingService() {
         return computeIfAbsent(DING_SERVICE,
-                () -> new DefaultDingService(dingConfigStorage(), dingTalkClientFactory(), dingLogger())
+                () -> new DefaultDingService(dingConfigStorage(), dingTalkClientFactory(), dingLogger(), dingConversionService())
         );
     }
 
     public DingClient dingClient() {
-        return computeIfAbsent(DING_SERVICE,
-                () -> new DefaultDingService(dingConfigStorage(), dingTalkClientFactory(), dingLogger())
-        );
+        return (DingClient) dingService();
     }
 
     public DingLogger dingLogger() {

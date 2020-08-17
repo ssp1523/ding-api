@@ -30,8 +30,8 @@ import static com.ssp.ding.DingProcessService.Api.*;
 public class DefaultDingProcessService extends BaseDingService implements DingProcessService {
 
 
-    public DefaultDingProcessService(DingClient dingClient, ConversionService conversionService) {
-        super(dingClient, conversionService);
+    public DefaultDingProcessService(DingClient dingClient) {
+        super(dingClient);
     }
 
     @Override

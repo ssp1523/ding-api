@@ -6,7 +6,6 @@ import com.ssp.ding.exception.DingException;
 import com.taobao.api.TaobaoRequest;
 import com.taobao.api.TaobaoResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.convert.ConversionService;
 
 /**
  * 钉钉Service基类
@@ -19,20 +18,17 @@ public abstract class BaseDingService {
 
     protected final DingClient dingClient;
 
-    protected final ConversionService conversionService;
-
-    protected BaseDingService(DingClient dingClient, ConversionService conversionService) {
+    protected BaseDingService(DingClient dingClient) {
         this.dingClient = dingClient;
-        this.conversionService = conversionService;
     }
 
 
     public <T> T convert(Object source, Class<T> targetType) {
         Assert.notNull(source, "source 必输");
-        boolean canConvert = conversionService.canConvert(source.getClass(), targetType);
+        boolean canConvert = dingClient.canConvert(source.getClass(), targetType);
         Assert.isTrue(canConvert, "未找到转换器:Converter<{}, {}>",
                 source.getClass().getSimpleName(), targetType.getSimpleName());
-        return conversionService.convert(source, targetType);
+        return dingClient.convert(source, targetType);
     }
 
     public <T extends TaobaoResponse> T execute(DingApi dingApi, TaobaoRequest<T> request) throws DingException {

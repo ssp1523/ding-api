@@ -2,7 +2,7 @@ package com.ssp.ding.config;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.ssp.ding.DingConfigStorage;
-import com.ssp.ding.config.DingConfig;
+import lombok.RequiredArgsConstructor;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -11,11 +11,12 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Supplier;
 
 /**
- * 默认实现
+ * 默认实现,内存存储
  *
  * @author: sunshaoping
  * @date: Create by in 6:34 下午 2020/6/7
  */
+@RequiredArgsConstructor
 public class DingConfigStorageImpl implements DingConfigStorage {
 
     private final DingConfig dingConfig;
@@ -23,11 +24,6 @@ public class DingConfigStorageImpl implements DingConfigStorage {
     private final Token token = new Token();
 
     private final Token ticket = new Token();
-
-
-    public DingConfigStorageImpl(DingConfig dingConfig) {
-        this.dingConfig = dingConfig;
-    }
 
 
     @Override
@@ -51,8 +47,11 @@ public class DingConfigStorageImpl implements DingConfigStorage {
         return token.getValue();
     }
 
+    /**
+     * accessToken 是否过期
+     */
     protected boolean accessTokenExpired() {
-        return ObjectUtil.isEmpty(token.getExpireTime()) || token.getExpireTime().isAfter(LocalDateTime.now());
+        return ObjectUtil.isEmpty(token.getExpireTime()) || token.getExpireTime().compareTo(LocalDateTime.now()) <= 0;
     }
 
     @Override
@@ -64,11 +63,6 @@ public class DingConfigStorageImpl implements DingConfigStorage {
     public void updateAccessToken(String accessToken, Duration expiresIn) {
         token.setValue(accessToken);
         token.setExpireTime(LocalDateTime.now().plus(expiresIn));
-    }
-
-    @Override
-    public Duration getAccessExpires() {
-        return Duration.between(token.getExpireTime(), LocalDateTime.now());
     }
 
     @Override
@@ -93,7 +87,7 @@ public class DingConfigStorageImpl implements DingConfigStorage {
     }
 
     private boolean jsApiTicketExpired() {
-        return ObjectUtil.isEmpty(ticket.getExpireTime()) || ticket.getExpireTime().isAfter(LocalDateTime.now());
+        return ObjectUtil.isEmpty(ticket.getExpireTime()) || ticket.getExpireTime().compareTo(LocalDateTime.now()) <= 0;
     }
 
     @Override
@@ -105,11 +99,6 @@ public class DingConfigStorageImpl implements DingConfigStorage {
     public void updateJsApiTicket(String jsApiTicket, Duration expiresIn) {
         ticket.setValue(jsApiTicket);
         ticket.setExpireTime(LocalDateTime.now().plus(expiresIn));
-    }
-
-    @Override
-    public Duration getJsApiTicketExpires() {
-        return Duration.between(ticket.getExpireTime(), LocalDateTime.now());
     }
 
     @Override

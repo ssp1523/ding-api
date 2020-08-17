@@ -38,7 +38,7 @@ public class DefaultDingLogger implements DingLogger {
         if (response.isSuccess()) {
             //成功日志
             if (log.isDebugEnabled()) {
-                log.info("response [{}],{}", dingApi.getSketch(), response.getBody());
+                log.debug("response [{}],{}", dingApi.getSketch(), response.getBody());
             }
         } else {
             //失败日志

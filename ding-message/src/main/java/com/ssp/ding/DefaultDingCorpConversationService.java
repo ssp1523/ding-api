@@ -16,7 +16,6 @@ import com.ssp.ding.response.DingSendProgressResponse;
 import com.ssp.ding.response.DingSendResultResponse;
 import com.ssp.ding.service.BaseDingService;
 import com.ssp.ding.service.DingClient;
-import org.springframework.core.convert.ConversionService;
 
 import java.util.List;
 
@@ -35,8 +34,8 @@ public class DefaultDingCorpConversationService extends BaseDingService implemen
     private final DingMediaService dingMediaService;
 
 
-    public DefaultDingCorpConversationService(DingClient dingClient, ConversionService conversionService, ObjectMapper objectMapper, DingMediaService dingMediaService) {
-        super(dingClient, conversionService);
+    public DefaultDingCorpConversationService(DingClient dingClient, ObjectMapper objectMapper, DingMediaService dingMediaService) {
+        super(dingClient);
         this.objectMapper = objectMapper;
         this.dingMediaService = dingMediaService;
     }

@@ -27,8 +27,9 @@ import static com.ssp.ding.utils.NumberConvertUtils.toLong;
  */
 public class DefaultDingProcessInstanceService extends BaseDingService implements DingProcessInstanceService {
 
-    public DefaultDingProcessInstanceService(DingClient dingClient, ConversionService conversionService) {
-        super(dingClient, conversionService);
+
+    public DefaultDingProcessInstanceService(DingClient dingClient) {
+        super(dingClient);
     }
 
     @Override

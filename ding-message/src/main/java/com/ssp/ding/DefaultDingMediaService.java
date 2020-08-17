@@ -30,7 +30,7 @@ public class DefaultDingMediaService extends BaseDingService implements DingMedi
 
 
     public DefaultDingMediaService(DingClient dingClient) {
-        super(dingClient, null);
+        super(dingClient);
     }
 
     @Override
