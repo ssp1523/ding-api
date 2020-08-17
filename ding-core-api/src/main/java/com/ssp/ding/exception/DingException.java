@@ -57,4 +57,5 @@ public class DingException extends RuntimeException implements DingError {
     public <T> T getSource() {
         return (T) source;
     }
+
 }

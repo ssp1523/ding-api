@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import com.dingtalk.api.request.*;
 import com.dingtalk.api.response.*;
-import com.ssp.ding.exception.DingException;
+import com.ssp.ding.error.DingRoleError;
 import com.ssp.ding.request.DingPageable;
 import com.ssp.ding.response.DingPage;
 import com.ssp.ding.response.DingRoleGroupResponse;
@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 
 import static com.ssp.ding.DingRoleService.Api.*;
 import static com.ssp.ding.conf.DingConf.COMMA;
-import static com.ssp.ding.conf.DingConf.VERTICAL_BAR;
 
 
 /**
@@ -66,9 +65,12 @@ public class DefaultDingRoleService extends BaseDingService implements DingRoleS
         OapiRoleGetroleResponse response = execute(GET_ROLE, req);
         OapiRoleGetroleResponse.OpenRole role = response.getRole();
         if (Objects.isNull(role)) {
-            throw new DingException("未找到角色 roleId=" + roleId, (Throwable) null);
+            throw DingRoleError.ROLE_NOT_FOUND.internalException(roleId);
         }
-        return convert(role, DingRoleResponse.class);
+        DingRoleResponse dingRoleResponse = convert(role, DingRoleResponse.class);
+        dingRoleResponse.setRoleId(roleId);
+        return dingRoleResponse;
+
 
     }
 
@@ -141,7 +143,7 @@ public class DefaultDingRoleService extends BaseDingService implements DingRoleS
     }
 
     @Override
-    public void addRolesForemps(List<Long> roleIds, List<String> userIds) {
+    public void addRolesForEmps(List<Long> roleIds, List<String> userIds) {
         Assert.notEmpty(roleIds, "roleIds 必输");
         Assert.notEmpty(userIds, "userIds 必输");
 
@@ -149,14 +151,14 @@ public class DefaultDingRoleService extends BaseDingService implements DingRoleS
         request.setRoleIds(
                 roleIds.stream()
                         .map(String::valueOf)
-                        .collect(Collectors.joining(VERTICAL_BAR))
+                        .collect(Collectors.joining(COMMA))
         );
-        request.setUserIds(String.join(VERTICAL_BAR, userIds));
+        request.setUserIds(String.join(COMMA, userIds));
         execute(ADD_ROLES_FOREMPS, request);
     }
 
     @Override
-    public void removeRolesForemps(List<Long> roleIds, List<String> userIds) {
+    public void removeRolesForEmps(List<Long> roleIds, List<String> userIds) {
         Assert.notEmpty(roleIds, "roleIds 必输");
         Assert.notEmpty(userIds, "userIds 必输");
 
@@ -164,15 +166,15 @@ public class DefaultDingRoleService extends BaseDingService implements DingRoleS
         request.setRoleIds(
                 roleIds.stream()
                         .map(String::valueOf)
-                        .collect(Collectors.joining(VERTICAL_BAR))
+                        .collect(Collectors.joining(COMMA))
         );
-        request.setUserIds(String.join(VERTICAL_BAR, userIds));
+        request.setUserIds(String.join(COMMA, userIds));
 
         execute(REMOVE_ROLES_FOREMPS, request);
     }
 
     @Override
-    public void scopeUpdate(String userId, Long roleId, List<Long> deptIds) {
+    public void scopeUpdate(Long roleId, String userId, List<Long> deptIds) {
         OapiRoleScopeUpdateRequest req = new OapiRoleScopeUpdateRequest();
         req.setUserid(userId);
         req.setRoleId(roleId);

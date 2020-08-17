@@ -22,10 +22,14 @@ public class DefaultDingLogger implements DingLogger {
     public void request(DingApi dingApi, TaobaoRequest<?> request) {
         if (GET_TOKEN == dingApi) {
             //token 请求信息不打印
-            log.info("request [{}]", dingApi.getSketch());
+            if (log.isDebugEnabled()) {
+                log.debug("request [{}]", dingApi.getSketch());
+            }
             return;
         }
-        log.info("request [{}],{}", dingApi.getSketch(), request.getTextParams());
+        if (log.isDebugEnabled()) {
+            log.debug("request [{}],{}", dingApi.getSketch(), request.getTextParams());
+        }
     }
 
     @Override
@@ -33,7 +37,9 @@ public class DefaultDingLogger implements DingLogger {
 
         if (response.isSuccess()) {
             //成功日志
-            log.info("response [{}],{}", dingApi.getSketch(), response.getBody());
+            if (log.isDebugEnabled()) {
+                log.info("response [{}],{}", dingApi.getSketch(), response.getBody());
+            }
         } else {
             //失败日志
             log.error("response [{}],错误码:{},错误原因:{}", dingApi.getSketch(),

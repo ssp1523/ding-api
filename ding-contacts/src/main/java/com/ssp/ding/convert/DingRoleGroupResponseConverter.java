@@ -2,8 +2,8 @@ package com.ssp.ding.convert;
 
 import cn.hutool.core.collection.CollUtil;
 import com.dingtalk.api.response.OapiRoleListResponse;
-import com.ssp.ding.response.DingRoleByGroupResponse;
 import com.ssp.ding.response.DingRoleGroupResponse;
+import com.ssp.ding.response.DingRoleResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 
@@ -23,12 +23,13 @@ public class DingRoleGroupResponseConverter implements Converter<OapiRoleListRes
     public DingRoleGroupResponse convert(OapiRoleListResponse.OpenRoleGroup roleGroup) {
 
         List<OapiRoleListResponse.OpenRole> openRoles = roleGroup.getRoles();
-        List<DingRoleByGroupResponse> roles = null;
+        List<DingRoleResponse> roles = null;
         if (CollUtil.isNotEmpty(openRoles)) {
             roles = openRoles.stream()
-                    .map(openRole -> DingRoleByGroupResponse.builder()
+                    .map(openRole -> DingRoleResponse.builder()
                             .name(openRole.getName())
-                            .id(openRole.getId())
+                            .roleId(openRole.getId())
+                            .groupId(roleGroup.getGroupId())
                             .build())
                     .collect(Collectors.toList());
         }

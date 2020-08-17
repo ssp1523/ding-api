@@ -1,5 +1,6 @@
 package com.ssp.ding.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,6 +16,10 @@ public class DingRoleResponse {
 
     public static final DingRoleResponse EMPTY = DingRoleResponse.builder().build();
 
+    /**
+     * 角色id
+     */
+    private Long roleId;
     /**
      * 角色组id
      */

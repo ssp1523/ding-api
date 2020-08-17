@@ -85,6 +85,7 @@ public class ContactsAutoConfiguration implements ConverterConfigurer {
         converterRegistry.addConverter(new OapiDepartmentCreateRequestConverter());
         converterRegistry.addConverter(new DingDepartmentResponseConverter());
         converterRegistry.addConverter(new DingUserListResponseConverter(objectMapper));
+        converterRegistry.addConverter(new RoleUserSimpleResponseConverter());
     }
 
     @Configuration

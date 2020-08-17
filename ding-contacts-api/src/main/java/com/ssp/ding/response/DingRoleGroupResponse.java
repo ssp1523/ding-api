@@ -24,6 +24,8 @@ public class DingRoleGroupResponse {
     private String name;
     /**
      * 角色
+     * <p>
+     * {@link DingRoleResponse#getGroupId()} 原接口不存在该数据,框架后来添加的
      */
-    private List<DingRoleByGroupResponse> roles;
+    private List<DingRoleResponse> roles;
 }

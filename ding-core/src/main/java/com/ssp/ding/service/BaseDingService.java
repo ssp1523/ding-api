@@ -30,7 +30,8 @@ public abstract class BaseDingService {
     public <T> T convert(Object source, Class<T> targetType) {
         Assert.notNull(source, "source 必输");
         boolean canConvert = conversionService.canConvert(source.getClass(), targetType);
-        Assert.isTrue(canConvert, "未找到转换器:Converter<{}}, {}}>", source, targetType);
+        Assert.isTrue(canConvert, "未找到转换器:Converter<{}, {}>",
+                source.getClass().getSimpleName(), targetType.getSimpleName());
         return conversionService.convert(source, targetType);
     }
 

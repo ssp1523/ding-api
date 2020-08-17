@@ -4,6 +4,7 @@ import java.util.Objects;
 
 /**
  * 错误代码,请使用枚举类实现该接口
+ * 错误码文档:https://ding-doc.dingtalk.com/doc#/faquestions/rftpfg
  *
  * @author: sunshaoping
  * @date: Create by in 09:47 2019-09-20
@@ -36,5 +37,6 @@ public interface DingError {
     default boolean eqErrCode(String errCode) {
         return Objects.equals(getErrCode(), errCode);
     }
+
 
 }

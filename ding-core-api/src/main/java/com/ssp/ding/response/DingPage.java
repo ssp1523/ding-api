@@ -3,6 +3,7 @@ package com.ssp.ding.response;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * @date: Create by in 10:33 上午 2020/6/8
  */
 @Getter
+@ToString
 @RequiredArgsConstructor
 public class DingPage<T> {
 
@@ -31,4 +33,6 @@ public class DingPage<T> {
     public static <T> DingPage<T> empty() {
         return (DingPage<T>) EMPTY;
     }
+
+
 }

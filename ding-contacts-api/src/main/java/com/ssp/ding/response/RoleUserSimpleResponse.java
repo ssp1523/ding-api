@@ -1,5 +1,6 @@
 package com.ssp.ding.response;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * @date: Create by in 4:34 下午 2020/6/9
  */
 @Data
+@Builder
 public class RoleUserSimpleResponse {
 
     /**

@@ -8,6 +8,7 @@ import com.ssp.ding.response.RoleUserSimpleResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -141,7 +142,7 @@ public interface DingRoleService {
      * @param roleIds 角色id list，最大列表长度：20
      * @param userIds 员工id list，最大列表长度：20
      */
-    void addRolesForemps(List<Long> roleIds, List<String> userIds);
+    void addRolesForEmps(List<Long> roleIds, List<String> userIds);
 
     /**
      * 批量删除员工角色
@@ -153,7 +154,7 @@ public interface DingRoleService {
      * @param roleIds 角色id list，最大列表长度：20
      * @param userIds 员工id list，最大列表长度：20
      */
-    void removeRolesForemps(List<Long> roleIds, List<String> userIds);
+    void removeRolesForEmps(List<Long> roleIds, List<String> userIds);
 
 
     /**
@@ -163,11 +164,15 @@ public interface DingRoleService {
      * <p>
      * 接口文档:https://ding-doc.dingtalk.com/doc#/serverapi2/dnu5l1/23c66112
      *
-     * @param userId  用户id
      * @param roleId  角色id，必须是用户已经加入的角色
+     * @param userId  用户id
      * @param deptIds 部门id列表，最多50个，不传则设置范围为默认值：所有人
      */
-    void scopeUpdate(String userId, Long roleId, List<Long> deptIds);
+    void scopeUpdate(Long roleId, String userId, @Nullable List<Long> deptIds);
+
+    default void scopeUpdate(Long roleId, String userId) {
+        scopeUpdate(roleId, userId, null);
+    }
 
 
     /**
@@ -198,15 +203,15 @@ public interface DingRoleService {
          */
         GET_ROLE("topapi/role/getrole", "获取角色详情"),
         /**
-         * @see #addRolesForemps(List, List)
+         * @see #addRolesForEmps(List, List)
          */
         ADD_ROLES_FOREMPS("topapi/role/addrolesforemps", "批量增加员工角色"),
         /**
-         * @see #removeRolesForemps(List, List)
+         * @see #removeRolesForEmps(List, List)
          */
         REMOVE_ROLES_FOREMPS("topapi/role/removerolesforemps", "批量删除员工角色"),
         /**
-         * @see #scopeUpdate(String, Long, List)
+         * @see #scopeUpdate(Long, String, List)
          */
         SCOPE_UPDATE("topapi/role/scope/update", "设定角色成员管理范围"),
         /**

@@ -1,17 +1,20 @@
 package com.ssp.ding;
 
+import com.ssp.ding.request.DingPageable;
 import com.ssp.ding.response.DingPage;
 import com.ssp.ding.response.DingRoleGroupResponse;
 import com.ssp.ding.response.DingRoleResponse;
+import com.ssp.ding.response.RoleUserSimpleResponse;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Arrays;
+
 /**
- *
  * @author: sunshaoping
  * @date: Create by in 5:16 下午 2020/8/12
  */
-public class DingRoleServiceTest extends BaseTest{
+public class DingRoleServiceTest extends BaseTest {
 
     @Autowired
     DingRoleService dingRoleService;
@@ -25,7 +28,7 @@ public class DingRoleServiceTest extends BaseTest{
 
     @Test
     public void updateRole() {
-        dingRoleService.updateRole(1541467273L,"架构师");
+        dingRoleService.updateRole(1541467273L, "架构师");
     }
 
     @Test
@@ -35,7 +38,7 @@ public class DingRoleServiceTest extends BaseTest{
 
     @Test
     public void getRole() {
-        DingRoleResponse role = dingRoleService.getRole(1541467273L);
+        DingRoleResponse role = dingRoleService.getRole(567412242L);
         System.out.println(role);
     }
 
@@ -47,10 +50,18 @@ public class DingRoleServiceTest extends BaseTest{
 
     @Test
     public void testList() {
+        DingPage<DingRoleGroupResponse> list = dingRoleService.list(DingPageable.builder()
+                .offset(1)
+                .size(10)
+                .build());
+        System.out.println(list);
     }
 
     @Test
     public void simpleList() {
+
+        DingPage<RoleUserSimpleResponse> user = dingRoleService.simpleList(1541386530L);
+        System.out.println(user);
 
     }
 
@@ -66,14 +77,22 @@ public class DingRoleServiceTest extends BaseTest{
 
     @Test
     public void addRolesForemps() {
+        dingRoleService.addRolesForEmps(
+                Arrays.asList(567412256L, 567412257L),
+                Arrays.asList("0600081849842061", "0136695831937065")
+        );
     }
 
     @Test
     public void removeRolesForemps() {
-        //dingRoleService.addRoleGroup()
+        dingRoleService.removeRolesForEmps(
+                Arrays.asList(567412256L, 567412257L),
+                Arrays.asList("0600081849842061")
+        );
     }
 
     @Test
     public void scopeUpdate() {
+        dingRoleService.scopeUpdate(567412256L, "0600081849842061", Arrays.asList(150273007L));
     }
 }
