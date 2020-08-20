@@ -13,7 +13,6 @@ import com.ssp.ding.response.DingChatCreateResponse;
 import com.ssp.ding.response.DingChatResponse;
 import com.ssp.ding.service.BaseDingService;
 import com.ssp.ding.service.DingClient;
-import org.springframework.core.convert.ConversionService;
 
 import java.util.List;
 
@@ -28,8 +27,8 @@ import static com.ssp.ding.DingChatService.Api.*;
 public class DefaultDingChatService extends BaseDingService implements DingChatService {
 
 
-    public DefaultDingChatService(DingClient dingClient, ConversionService conversionService) {
-        super(dingClient, conversionService);
+    public DefaultDingChatService(DingClient dingClient) {
+        super(dingClient);
     }
 
     @Override

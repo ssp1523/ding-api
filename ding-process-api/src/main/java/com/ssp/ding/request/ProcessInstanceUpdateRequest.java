@@ -1,9 +1,9 @@
 package com.ssp.ding.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ssp.ding.DingProcessWorkRecordService;
 import com.ssp.ding.ProcessResult;
 import com.ssp.ding.ProcessStatus;
-import com.ssp.ding.DingProcessWorkRecordService;
 import lombok.Builder;
 import lombok.Getter;
 

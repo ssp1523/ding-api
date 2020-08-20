@@ -1,7 +1,8 @@
 package com.ssp.ding.message;
 
 import com.ssp.ding.enumeration.MsgType;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.util.List;
 

@@ -14,7 +14,6 @@ import com.ssp.ding.response.DingCursorPage;
 import com.ssp.ding.response.ProcessInstanceDetailResponse;
 import com.ssp.ding.service.BaseDingService;
 import com.ssp.ding.service.DingClient;
-import org.springframework.core.convert.ConversionService;
 
 import static com.ssp.ding.DingProcessInstanceService.Api.*;
 import static com.ssp.ding.utils.NumberConvertUtils.toLong;

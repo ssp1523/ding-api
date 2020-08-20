@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 
-import javax.annotation.Nullable;
-
 /**
  * link类型消息
  *

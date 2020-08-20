@@ -17,4 +17,11 @@ public class NumberConvertUtils {
         return Long.valueOf(num);
     }
 
+    public static Integer toLong(Long num) {
+        if (Objects.isNull(num)) {
+            return null;
+        }
+        return Math.toIntExact(num);
+    }
+
 }

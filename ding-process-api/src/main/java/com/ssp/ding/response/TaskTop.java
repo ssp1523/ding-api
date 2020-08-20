@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ssp.ding.ProcessStatus;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * 已审批任务,可以获取已审批人

@@ -1,9 +1,7 @@
 package com.ssp.ding.message;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 /**
  * 按钮信息

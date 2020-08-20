@@ -1,11 +1,7 @@
 package com.ssp.ding.autoconfiguration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssp.ding.DefaultDingDepartmentService;
-import com.ssp.ding.DefaultDingRoleService;
-import com.ssp.ding.DefaultDingUserService;
-import com.ssp.ding.DingDepartmentService;
-import com.ssp.ding.DingUserService;
+import com.ssp.ding.*;
 import com.ssp.ding.configuration.CallbackConfiguration;
 import com.ssp.ding.configuration.DingConfiguration;
 import com.ssp.ding.convert.*;
@@ -23,10 +19,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.converter.ConverterRegistry;
 
-import static com.ssp.ding.configuration.ConverterConfiguration.DING_CONVERSION_SERVICE;
 import static com.ssp.ding.configuration.ConverterConfiguration.DING_OBJECT_MAPPER;
 import static com.ssp.ding.properties.DingCallbackProperties.PREFIX;
 
@@ -46,31 +40,28 @@ public class ContactsAutoConfiguration implements ConverterConfigurer {
 
     private final DingClient dingClient;
 
-    private final ConversionService conversionService;
 
-    public ContactsAutoConfiguration(@Lazy @Qualifier(DING_OBJECT_MAPPER) ObjectMapper objectMapper, DingClient dingClient,
-                                     @Qualifier(DING_CONVERSION_SERVICE) ConversionService conversionService) {
+    public ContactsAutoConfiguration(@Lazy @Qualifier(DING_OBJECT_MAPPER) ObjectMapper objectMapper, DingClient dingClient) {
         this.objectMapper = objectMapper;
         this.dingClient = dingClient;
-        this.conversionService = conversionService;
     }
 
     @Bean
     @ConditionalOnMissingBean
     public DingDepartmentService dingDepartmentService() {
-        return new DefaultDingDepartmentService(dingClient, conversionService, objectMapper);
+        return new DefaultDingDepartmentService(dingClient, objectMapper);
     }
 
     @Bean
     @ConditionalOnMissingBean
     public DingUserService dingUserService() {
-        return new DefaultDingUserService(dingClient, conversionService);
+        return new DefaultDingUserService(dingClient);
     }
 
     @Bean
     @ConditionalOnMissingBean
     public DefaultDingRoleService dingRoleService() {
-        return new DefaultDingRoleService(dingClient, conversionService);
+        return new DefaultDingRoleService(dingClient);
     }
 
     @Override
@@ -86,6 +77,9 @@ public class ContactsAutoConfiguration implements ConverterConfigurer {
         converterRegistry.addConverter(new DingDepartmentResponseConverter());
         converterRegistry.addConverter(new DingUserListResponseConverter(objectMapper));
         converterRegistry.addConverter(new RoleUserSimpleResponseConverter());
+        converterRegistry.addConverter(new OapiDepartmentUpdateRequestConverter());
+        converterRegistry.addConverter(new OapiDepartmentUpdateRequestConverter());
+        converterRegistry.addConverter(new DingDepartmentDetailResponseConverter());
     }
 
     @Configuration

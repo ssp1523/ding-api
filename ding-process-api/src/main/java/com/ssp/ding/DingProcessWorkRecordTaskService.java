@@ -4,8 +4,8 @@ import com.ssp.ding.request.*;
 import com.ssp.ding.response.DingPage;
 import com.ssp.ding.response.DingProcessTaskResponse;
 import com.ssp.ding.response.DingUserTaskResponse;
-import javax.annotation.Nullable;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**

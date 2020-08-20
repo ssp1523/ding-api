@@ -78,6 +78,10 @@ public interface DingDepartmentService {
      */
     List<Long> listIds(Long parentId) throws DingException;
 
+    default List<Long> listIds() throws DingException {
+        return listIds(1L);
+    }
+
     /**
      * 获取部门列表
      * <p>
@@ -90,6 +94,10 @@ public interface DingDepartmentService {
      * @param lang       通讯录语言（默认zh_CN，未来会支持en_US）
      */
     List<DingDepartmentResponse> list(Long parentId, Boolean fetchChild, Locale lang) throws DingException;
+
+    default List<DingDepartmentResponse> list(Long parentId, Boolean fetchChild) throws DingException {
+        return list(parentId, fetchChild, Locale.SIMPLIFIED_CHINESE);
+    }
 
     /**
      * 获取部门详情

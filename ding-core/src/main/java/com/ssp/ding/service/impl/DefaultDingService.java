@@ -10,8 +10,8 @@ import com.dingtalk.api.response.OapiGetJsapiTicketResponse;
 import com.dingtalk.api.response.OapiGettokenResponse;
 import com.dingtalk.api.response.OapiSnsGetuserinfoBycodeResponse;
 import com.dingtalk.api.response.OapiUserGetuserinfoResponse;
-import com.ssp.ding.DingConfigStorage;
 import com.ssp.ding.DingApi;
+import com.ssp.ding.DingConfigStorage;
 import com.ssp.ding.DingService;
 import com.ssp.ding.exception.DingException;
 import com.ssp.ding.response.DingSnsUserInfoResponse;
@@ -61,6 +61,10 @@ public class DefaultDingService implements DingService, DingClient {
     @Override
     public String refreshAccessToken() {
         return dingConfigStorage.accessTokenLock(() -> {
+            String accessToken = dingConfigStorage.getAccessToken();
+            if (StrUtil.isNotBlank(accessToken)) {
+                return accessToken;
+            }
             dingConfigStorage.expireAccessToken();
             OapiGettokenRequest request = new OapiGettokenRequest();
             request.setAppkey(dingConfigStorage.getAppKey());

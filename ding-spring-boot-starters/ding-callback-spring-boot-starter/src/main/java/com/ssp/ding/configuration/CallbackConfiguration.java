@@ -1,6 +1,7 @@
 package com.ssp.ding.configuration;
 
 import cn.hutool.core.collection.CollUtil;
+import com.dingtalk.oapi.lib.aes.DingTalkEncryptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssp.ding.DefaultDingCallbackManageService;
 import com.ssp.ding.DefaultDingCallbackService;
@@ -10,7 +11,6 @@ import com.ssp.ding.handler.CallbackEvent;
 import com.ssp.ding.handler.DingCallbackHandler;
 import com.ssp.ding.properties.DingCallbackProperties;
 import com.ssp.ding.service.DingClient;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -22,7 +22,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.core.convert.ConversionService;
 
 import java.util.List;
 import java.util.Objects;
@@ -39,14 +38,12 @@ import static com.ssp.ding.properties.DingCallbackProperties.PREFIX;
 
 @Configuration
 @Import(DingConfiguration.class)
-@ConditionalOnClass(DingCallbackManageService.class)
+@ConditionalOnClass({DingCallbackManageService.class, DingTalkEncryptor.class})
 @EnableConfigurationProperties(DingCallbackProperties.class)
 @ConditionalOnProperty(prefix = PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 public class CallbackConfiguration implements ApplicationListener<ContextRefreshedEvent> {
 
     private final DingClient dingClient;
-
-    private final ConversionService conversionService;
 
     private final ObjectMapper objectMapper;
 
@@ -54,11 +51,8 @@ public class CallbackConfiguration implements ApplicationListener<ContextRefresh
 
     private List<DingCallbackHandler<? extends CallbackEvent>> dingCallbackHandlers;
 
-    public CallbackConfiguration(DingClient dingClient, ConversionService conversionService,
-                                 @Qualifier(DING_OBJECT_MAPPER) ObjectMapper objectMapper,
-                                 DingCallbackProperties dingCallbackProperties) {
+    public CallbackConfiguration(DingClient dingClient, @Qualifier(DING_OBJECT_MAPPER) ObjectMapper objectMapper, DingCallbackProperties dingCallbackProperties) {
         this.dingClient = dingClient;
-        this.conversionService = conversionService;
         this.objectMapper = objectMapper;
         this.dingCallbackProperties = dingCallbackProperties;
     }
@@ -66,7 +60,7 @@ public class CallbackConfiguration implements ApplicationListener<ContextRefresh
     @Bean
     @ConditionalOnMissingBean
     public DingCallbackManageService dingCallbackManageService() {
-        return new DefaultDingCallbackManageService(dingClient, conversionService, dingCallbackProperties);
+        return new DefaultDingCallbackManageService(dingClient, dingCallbackProperties);
     }
 
     @Bean

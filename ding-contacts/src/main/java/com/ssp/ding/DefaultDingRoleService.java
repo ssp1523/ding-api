@@ -12,7 +12,6 @@ import com.ssp.ding.response.DingRoleResponse;
 import com.ssp.ding.response.RoleUserSimpleResponse;
 import com.ssp.ding.service.BaseDingService;
 import com.ssp.ding.service.DingClient;
-import org.springframework.core.convert.ConversionService;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,8 +29,8 @@ import static com.ssp.ding.conf.DingConf.COMMA;
  */
 public class DefaultDingRoleService extends BaseDingService implements DingRoleService {
 
-    public DefaultDingRoleService(DingClient dingClient, ConversionService conversionService) {
-        super(dingClient, conversionService);
+    public DefaultDingRoleService(DingClient dingClient) {
+        super(dingClient);
     }
 
     @Override

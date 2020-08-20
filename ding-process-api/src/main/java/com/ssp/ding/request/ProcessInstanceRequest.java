@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.annotation.Nullable;
-
 import java.util.List;
 
 /**

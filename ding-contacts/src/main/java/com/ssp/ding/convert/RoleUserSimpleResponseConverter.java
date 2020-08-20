@@ -7,7 +7,6 @@ import com.ssp.ding.response.ManageScopeResponse;
 import com.ssp.ding.response.RoleUserSimpleResponse;
 import org.springframework.core.convert.converter.Converter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

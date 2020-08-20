@@ -14,7 +14,6 @@ import com.ssp.ding.response.DingDepartmentResponse;
 import com.ssp.ding.service.BaseDingService;
 import com.ssp.ding.service.DingClient;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.convert.ConversionService;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -36,8 +35,8 @@ public class DefaultDingDepartmentService extends BaseDingService implements Din
 
     private final ObjectMapper objectMapper;
 
-    public DefaultDingDepartmentService(DingClient dingClient, ConversionService conversionService, ObjectMapper objectMapper) {
-        super(dingClient, conversionService);
+    public DefaultDingDepartmentService(DingClient dingClient, ObjectMapper objectMapper) {
+        super(dingClient);
         this.objectMapper = objectMapper;
     }
 
@@ -52,6 +51,7 @@ public class DefaultDingDepartmentService extends BaseDingService implements Din
     @Override
     public Long update(Long id, DingDepartmentUpdateRequest request, Locale lang) throws DingException {
         Assert.notNull(id, "id 必输");
+        Assert.notNull(request, "request 必输");
 
         OapiDepartmentUpdateRequest updateRequest = convert(request, OapiDepartmentUpdateRequest.class);
         updateRequest.setLang(lang.toString());

@@ -1,6 +1,5 @@
 package com.ssp.ding.response.auth;
 
-import com.taobao.api.internal.mapping.ApiField;
 import lombok.Data;
 
 /**

@@ -1,7 +1,7 @@
 package com.ssp.ding.convert;
 
-import com.ssp.ding.response.DingUserSimpleResponse;
 import com.dingtalk.api.response.OapiUserSimplelistResponse;
+import com.ssp.ding.response.DingUserSimpleResponse;
 import org.springframework.core.convert.converter.Converter;
 
 /**

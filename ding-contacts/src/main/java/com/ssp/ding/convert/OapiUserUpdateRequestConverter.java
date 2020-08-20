@@ -2,11 +2,11 @@ package com.ssp.ding.convert;
 
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
-import com.ssp.ding.request.DingUserRequest;
 import com.dingtalk.api.request.OapiUserUpdateRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssp.ding.exception.DingException;
+import com.ssp.ding.request.DingUserRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;

@@ -2,9 +2,9 @@ package com.ssp.ding.hrm.api;
 
 import com.ssp.ding.hrm.request.DingGroupMetaInfoRequest;
 import com.ssp.ding.hrm.request.DingPreEntryEmployeeRequest;
-import com.ssp.ding.hrm.response.DingEmployeeDimissionResponse;
 import com.ssp.ding.hrm.response.DingEmpFieldGroupResponse;
 import com.ssp.ding.hrm.response.DingEmpResponse;
+import com.ssp.ding.hrm.response.DingEmployeeDimissionResponse;
 import com.ssp.ding.request.DingPageable;
 import com.ssp.ding.response.DingCursorPage;
 

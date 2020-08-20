@@ -1,9 +1,9 @@
 package com.ssp.ding.convert;
 
 import cn.hutool.core.collection.CollUtil;
+import com.dingtalk.api.request.OapiDepartmentUpdateRequest;
 import com.ssp.ding.conf.DingConf;
 import com.ssp.ding.request.DingDepartmentUpdateRequest;
-import com.dingtalk.api.request.OapiDepartmentUpdateRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 
@@ -37,6 +37,7 @@ public class OapiDepartmentUpdateRequestConverter implements Converter<DingDepar
         updateRequest.setOrgDeptOwner(request.getOrgDeptOwner());
 
         updateRequest.setCreateDeptGroup(request.getCreateDeptGroup());
+
         updateRequest.setDeptHiding(request.getDeptHiding());
 
         List<Long> deptPermits = request.getDeptPermits();
@@ -50,7 +51,7 @@ public class OapiDepartmentUpdateRequestConverter implements Converter<DingDepar
         }
 
         updateRequest.setName(request.getName());
-        updateRequest.setOrder(request.getOrder());
+        updateRequest.setOrder(String.valueOf(request.getOrder()));
         updateRequest.setOuterDept(request.getOuterDept());
         updateRequest.setOuterDeptOnlySelf(request.getOuterDeptOnlySelf());
         List<Long> outerPermitDepts = request.getOuterPermitDepts();

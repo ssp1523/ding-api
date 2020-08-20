@@ -1,8 +1,8 @@
 package com.ssp.ding.utils;
 
-import com.ssp.ding.exception.DingException;
 import com.ssp.ding.error.DingError;
 import com.ssp.ding.error.SysError;
+import com.ssp.ding.exception.DingException;
 import com.taobao.api.ApiException;
 import com.taobao.api.TaobaoResponse;
 

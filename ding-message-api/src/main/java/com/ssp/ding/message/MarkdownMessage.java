@@ -2,7 +2,6 @@ package com.ssp.ding.message;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ssp.ding.enumeration.MsgType;
-import lombok.Builder;
 import lombok.Getter;
 
 /**

@@ -9,7 +9,6 @@ import com.ssp.ding.response.DingPage;
 import com.ssp.ding.service.BaseDingService;
 import com.ssp.ding.service.DingClient;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.convert.ConversionService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,8 +28,8 @@ public class DefaultDingCallbackManageService extends BaseDingService implements
     private final DingCallbackConfigStorage configStorage;
 
 
-    public DefaultDingCallbackManageService(DingClient dingClient, ConversionService conversionService, DingCallbackConfigStorage configStorage) {
-        super(dingClient, conversionService);
+    public DefaultDingCallbackManageService(DingClient dingClient, DingCallbackConfigStorage configStorage) {
+        super(dingClient);
         this.configStorage = configStorage;
     }
 

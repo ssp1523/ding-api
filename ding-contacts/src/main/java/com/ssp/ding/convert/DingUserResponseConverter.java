@@ -2,12 +2,12 @@ package com.ssp.ding.convert;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.ssp.ding.conf.TypeReferenceConf;
-import com.ssp.ding.response.DingRole;
-import com.ssp.ding.response.DingUserResponse;
 import com.dingtalk.api.response.OapiUserGetResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssp.ding.conf.TypeReferenceConf;
+import com.ssp.ding.response.DingRole;
+import com.ssp.ding.response.DingUserResponse;
 import com.ssp.ding.utils.DateUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

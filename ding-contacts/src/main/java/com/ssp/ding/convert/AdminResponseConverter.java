@@ -1,7 +1,7 @@
 package com.ssp.ding.convert;
 
-import com.ssp.ding.response.AdminResponse;
 import com.dingtalk.api.response.OapiUserGetAdminResponse;
+import com.ssp.ding.response.AdminResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 

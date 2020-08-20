@@ -13,7 +13,6 @@ import com.ssp.ding.request.DingUserRequest;
 import com.ssp.ding.response.*;
 import com.ssp.ding.service.BaseDingService;
 import com.ssp.ding.service.DingClient;
-import org.springframework.core.convert.ConversionService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -33,8 +32,8 @@ import static com.ssp.ding.DingUserService.Api.*;
  */
 public class DefaultDingUserService extends BaseDingService implements DingUserService {
 
-    public DefaultDingUserService(DingClient dingClient, ConversionService conversionService) {
-        super(dingClient, conversionService);
+    public DefaultDingUserService(DingClient dingClient) {
+        super(dingClient);
     }
 
     @Override

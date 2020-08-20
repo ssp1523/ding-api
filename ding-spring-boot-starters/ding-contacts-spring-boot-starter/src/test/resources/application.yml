@@ -4,6 +4,7 @@ ding:
   app-secret: swBbAaDkPyCNrVAApTr5evMfrrkRcTyKpbrNlz_L_zUjJlpk-WgQzg1CkSVLTQzg
   callback:
     enabled: false
+  storage-type: redis
 logging:
   level:
     com.ssp.ding: debug

@@ -6,6 +6,7 @@
         <artifactId>ding-api</artifactId>
         <groupId>com.ssp.ding</groupId>
         <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -14,14 +15,6 @@
     <description>钉钉通讯录模块</description>
 
     <dependencies>
-        <dependency>
-            <groupId>com.taobao</groupId>
-            <artifactId>taobao-sdk-java</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <scope>system</scope>
-            <optional>true</optional>
-            <systemPath>${project.basedir}/../lib/taobao-sdk-java-auto_1479188381469-20200813.jar</systemPath>
-        </dependency>
 
         <dependency>
             <groupId>com.ssp.ding</groupId>
@@ -35,6 +28,14 @@
             <groupId>com.ssp.ding</groupId>
             <artifactId>ding-callback</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.taobao</groupId>
+            <artifactId>taobao-sdk-java</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 
 </project>

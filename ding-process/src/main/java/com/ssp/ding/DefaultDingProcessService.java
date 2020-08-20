@@ -12,7 +12,6 @@ import com.ssp.ding.response.DingCursorPage;
 import com.ssp.ding.response.DingProcessTopResponse;
 import com.ssp.ding.service.BaseDingService;
 import com.ssp.ding.service.DingClient;
-import org.springframework.core.convert.ConversionService;
 
 import javax.annotation.Nullable;
 import java.util.List;

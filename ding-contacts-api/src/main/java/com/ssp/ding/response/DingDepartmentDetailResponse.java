@@ -1,7 +1,7 @@
 package com.ssp.ding.response;
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import java.util.List;
  * @author: sunshaoping
  * @date: Create by in 1:22 下午 2020/6/8
  */
-@NoArgsConstructor
 @Data
+@Builder
 public class DingDepartmentDetailResponse {
 
     /**

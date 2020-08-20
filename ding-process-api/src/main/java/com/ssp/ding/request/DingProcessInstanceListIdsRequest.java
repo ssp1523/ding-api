@@ -2,8 +2,8 @@ package com.ssp.ding.request;
 
 import lombok.Builder;
 import lombok.Getter;
-import javax.annotation.Nullable;
 
+import javax.annotation.Nullable;
 import java.time.LocalDateTime;
 import java.util.List;
 

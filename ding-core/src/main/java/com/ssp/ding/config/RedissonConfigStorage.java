@@ -55,7 +55,7 @@ public class RedissonConfigStorage implements DingConfigStorage {
 
     @Override
     public void updateAccessToken(String accessToken, Duration expiresIn) {
-        getAccessTokenBucket().set(accessToken, expiresIn.toNanos(), TimeUnit.SECONDS);
+        getAccessTokenBucket().set(accessToken, expiresIn.toNanos(), TimeUnit.NANOSECONDS);
     }
 
     @Override

@@ -1,9 +1,9 @@
 package com.ssp.ding.convert;
 
 import cn.hutool.core.collection.CollUtil;
+import com.dingtalk.api.request.OapiDepartmentCreateRequest;
 import com.ssp.ding.conf.DingConf;
 import com.ssp.ding.request.DingDepartmentCreateRequest;
-import com.dingtalk.api.request.OapiDepartmentCreateRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.converter.Converter;
 

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ssp.ding.ProcessResult;
 import com.ssp.ding.ProcessStatus;
 import lombok.Data;
-import lombok.Value;
 
 import java.time.LocalDateTime;
 import java.util.List;

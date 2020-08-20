@@ -14,7 +14,6 @@ import com.ssp.ding.request.DingCursorPageable;
 import com.ssp.ding.response.DingCursorPage;
 import com.ssp.ding.service.BaseDingService;
 import com.ssp.ding.service.DingClient;
-import org.springframework.core.convert.ConversionService;
 
 import java.util.List;
 
@@ -32,8 +31,8 @@ public class DefaultDingMessageService extends BaseDingService implements DingMe
 
     private final DingMediaService dingMediaService;
 
-    public DefaultDingMessageService(DingClient dingClient, ConversionService conversionService, ObjectMapper objectMapper, DingMediaService dingMediaService) {
-        super(dingClient, conversionService);
+    public DefaultDingMessageService(DingClient dingClient,  ObjectMapper objectMapper, DingMediaService dingMediaService) {
+        super(dingClient);
         this.objectMapper = objectMapper;
         this.dingMediaService = dingMediaService;
     }

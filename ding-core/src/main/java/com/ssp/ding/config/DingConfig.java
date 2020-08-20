@@ -38,6 +38,8 @@ public class DingConfig {
      */
     private String corpId;
 
+    private StorageType storageType = StorageType.DEFAULT;
+
     /**
      * api 基本域名
      */
@@ -58,5 +60,16 @@ public class DingConfig {
 
     }
 
+
+    public enum StorageType {
+        /**
+         * redis存储
+         */
+        REDIS,
+        /**
+         * 默认存储, 内存存储
+         */
+        DEFAULT,
+    }
 
 }
