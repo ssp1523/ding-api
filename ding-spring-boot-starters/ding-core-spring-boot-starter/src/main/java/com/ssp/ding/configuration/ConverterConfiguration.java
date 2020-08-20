@@ -2,6 +2,7 @@ package com.ssp.ding.configuration;
 
 import cn.hutool.core.collection.CollUtil;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssp.ding.conf.DingConf;
 import com.ssp.ding.convert.ConverterConfigurer;
@@ -46,6 +47,8 @@ public class ConverterConfiguration implements ApplicationListener<ContextRefres
         objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
         //无引号
         objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         return objectMapper;
 

@@ -4,12 +4,14 @@ import cn.hutool.core.collection.CollUtil;
 import com.dingtalk.api.request.*;
 import com.dingtalk.api.response.OapiCallBackGetCallBackFailedResultResponse;
 import com.dingtalk.api.response.OapiCallBackGetCallBackResponse;
+import com.google.common.collect.Lists;
 import com.ssp.ding.response.DingCallBackFailedResponse;
 import com.ssp.ding.response.DingPage;
 import com.ssp.ding.service.BaseDingService;
 import com.ssp.ding.service.DingClient;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,12 +43,12 @@ public class DefaultDingCallbackManageService extends BaseDingService implements
         request.setUrl(callback.getUrl());
         request.setAesKey(callback.getAesKey());
         request.setToken(callback.getToken());
-        request.setCallBackTag(callback.getCallBackTag());
+        request.setCallBackTag(Lists.newArrayList(callback.getCallBackTag()));
         execute(REGISTER_CALL_BACK, request);
     }
 
     @Override
-    public void registerCallBack(List<String> callBackTag) {
+    public void registerCallBack(Collection<String> callBackTag) {
         this.registerCallBack(
                 DingCallback.builder()
                         .url(configStorage.getCallbackUrl())
@@ -78,7 +80,7 @@ public class DefaultDingCallbackManageService extends BaseDingService implements
         callBackRequest.setUrl(request.getUrl());
         callBackRequest.setAesKey(request.getAesKey());
         callBackRequest.setToken(request.getToken());
-        callBackRequest.setCallBackTag(request.getCallBackTag());
+        callBackRequest.setCallBackTag(Lists.newArrayList(request.getCallBackTag()));
         execute(UPDATE_CALL_BACK, callBackRequest);
 
     }

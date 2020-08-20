@@ -5,6 +5,7 @@ import com.ssp.ding.response.DingPage;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -34,10 +35,8 @@ public interface DingCallbackManageService {
      *
      * @param callBackTag 事件类型
      */
-    void registerCallBack(List<String> callBackTag);
+    void registerCallBack(Collection<String> callBackTag);
 
-
-    //    测试回调URL
 
     /**
      * 查询事件回调接口
@@ -94,7 +93,7 @@ public interface DingCallbackManageService {
 
         /**
          * @see #registerCallBack(DingCallback)
-         * @see #registerCallBack(List)
+         * @see #registerCallBack(Collection)
          */
         REGISTER_CALL_BACK("/call_back/register_call_back", "注册业务事件回调接口"),
         /**

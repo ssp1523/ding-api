@@ -3,7 +3,7 @@ package com.ssp.ding.event;
 import lombok.Getter;
 
 /**
- * 角色回调
+ * 企业变更回调
  *
  * @author: sunshaoping
  * @date: Create by in 1:43 下午 2020/6/23

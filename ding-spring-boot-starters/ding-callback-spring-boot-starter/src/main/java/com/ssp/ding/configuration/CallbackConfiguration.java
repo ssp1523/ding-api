@@ -7,6 +7,9 @@ import com.ssp.ding.DefaultDingCallbackManageService;
 import com.ssp.ding.DefaultDingCallbackService;
 import com.ssp.ding.DingCallbackManageService;
 import com.ssp.ding.DingCallbackService;
+import com.ssp.ding.controller.DingCallbackController;
+import com.ssp.ding.convert.ConverterConfigurer;
+import com.ssp.ding.convert.DingCallBackFailedResponseConverter;
 import com.ssp.ding.handler.CallbackEvent;
 import com.ssp.ding.handler.DingCallbackHandler;
 import com.ssp.ding.properties.DingCallbackProperties;
@@ -22,6 +25,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.convert.converter.ConverterRegistry;
 
 import java.util.List;
 import java.util.Objects;
@@ -41,7 +45,7 @@ import static com.ssp.ding.properties.DingCallbackProperties.PREFIX;
 @ConditionalOnClass({DingCallbackManageService.class, DingTalkEncryptor.class})
 @EnableConfigurationProperties(DingCallbackProperties.class)
 @ConditionalOnProperty(prefix = PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-public class CallbackConfiguration implements ApplicationListener<ContextRefreshedEvent> {
+public class CallbackConfiguration implements ApplicationListener<ContextRefreshedEvent>, ConverterConfigurer {
 
     private final DingClient dingClient;
 
@@ -55,6 +59,11 @@ public class CallbackConfiguration implements ApplicationListener<ContextRefresh
         this.dingClient = dingClient;
         this.objectMapper = objectMapper;
         this.dingCallbackProperties = dingCallbackProperties;
+    }
+
+    @Bean
+    public DingCallbackController callbackController(DingCallbackService callbackService) {
+        return new DingCallbackController(callbackService);
     }
 
     @Bean
@@ -85,5 +94,10 @@ public class CallbackConfiguration implements ApplicationListener<ContextRefresh
             return;
         }
         dingCallbackHandlers.forEach(dingCallbackService::registerCallBackHandler);
+    }
+
+    @Override
+    public void converter(ConverterRegistry converterRegistry) {
+        converterRegistry.addConverter(new DingCallBackFailedResponseConverter());
     }
 }

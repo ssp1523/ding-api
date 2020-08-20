@@ -10,6 +10,7 @@ package com.ssp.ding.handler;
  */
 public interface DingCallbackHandler<T extends CallbackEvent> {
 
+
     /**
      * 第一步:是否支持指定事件类型
      *

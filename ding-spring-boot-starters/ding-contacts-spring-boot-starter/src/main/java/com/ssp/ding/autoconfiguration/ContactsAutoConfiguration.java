@@ -70,7 +70,7 @@ public class ContactsAutoConfiguration implements ConverterConfigurer {
         converterRegistry.addConverter(new DingUserSimpleResponseConverter());
         converterRegistry.addConverter(new OapiUserCreateRequestConverter(objectMapper));
         converterRegistry.addConverter(new OapiUserUpdateRequestConverter(objectMapper));
-        converterRegistry.addConverter(new AdminResponseConverter());
+        converterRegistry.addConverter(new DingCallBackFailedResponseConverter());
         converterRegistry.addConverter(new DingRoleResponseConverter());
         converterRegistry.addConverter(new DingRoleGroupResponseConverter());
         converterRegistry.addConverter(new OapiDepartmentCreateRequestConverter());
@@ -80,6 +80,7 @@ public class ContactsAutoConfiguration implements ConverterConfigurer {
         converterRegistry.addConverter(new OapiDepartmentUpdateRequestConverter());
         converterRegistry.addConverter(new OapiDepartmentUpdateRequestConverter());
         converterRegistry.addConverter(new DingDepartmentDetailResponseConverter());
+        converterRegistry.addConverter(new AdminResponseConverter());
     }
 
     @Configuration

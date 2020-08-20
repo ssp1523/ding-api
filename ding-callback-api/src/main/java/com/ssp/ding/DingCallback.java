@@ -3,6 +3,7 @@ package com.ssp.ding;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ public class DingCallback {
     /**
      * 需要监听的事件类型
      */
-    private final List<String> callBackTag;
+    private final Collection<String> callBackTag;
     /**
      * 加解密需要用到的token，ISV(服务提供商)推荐使用注册套件时填写的token，
      * 普通企业可以随机填写
