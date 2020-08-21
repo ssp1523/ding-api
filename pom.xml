@@ -33,8 +33,29 @@
         <module>ding-robot-api</module>
     </modules>
 
-    <dependencies>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
 
+    <scm>
+        <connection>scm:git:https://github.com/ssp1523/ding-api.git</connection>
+        <developerConnection>scm:git:https://github.com/ssp1523/ding-api.git</developerConnection>
+        <url>https://github.com/ssp1523/ding-api</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>sunshaoping</name>
+            <email>490736081@qq.com</email>
+            <url>https://github.com/ssp1523</url>
+        </developer>
+    </developers>
+
+
+    <dependencies>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
